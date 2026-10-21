@@ -2,7 +2,7 @@
 
 Guida passo per passo, per Mac e per Windows, per installare Claude Code e tutto quello che serve al corso: Git, VS Code con l'estensione, Homebrew o Chocolatey, GitHub e il workspace MAK di partenza. I colleghi la seguono **a casa, prima dell'incontro**; all'incontro si guarda lo screenshot della verifica finale e si sistema chi è rimasto indietro.
 
-**Online:** https://stefanoserafin.github.io/mak-installazione-claude-code/ (da pubblicare)
+**Online:** https://stefanoserafin.github.io/mak-installazione-claude-code/ (pubblicata il 2026-10-21)
 
 Un solo file di dati, `data/passi.json`, genera tutto il resto: web app, slide, PDF e zip. Per cambiare un comando o una spiegazione si tocca solo il JSON e si rigenera.
 
