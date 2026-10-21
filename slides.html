@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installare Claude Code — slide</title>
+<style>
+:root{
+  --cemento:#EEF0EE; --carta:#FFFFFF; --grafite:#24282C; --acciaio:#6F787F; --filetto:#CDD3D3; --rosso:#C8102E;
+  --titolo:"Avenir Next Condensed","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --testo:"Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#1A1D20;overflow:hidden}
+body{font-family:var(--testo);color:var(--grafite);-webkit-font-smoothing:antialiased}
+#palco{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center center}
+.slide{position:absolute;inset:0;background:var(--cemento);padding:80px 110px 110px;display:none;flex-direction:column}
+.slide.attiva{display:flex}
+h1,h2,h3{font-family:var(--titolo);font-weight:700;letter-spacing:-.01em;line-height:1.02}
+h1{font-size:140px}
+h2{font-size:76px;margin-bottom:14px}
+h3{font-size:40px;margin-bottom:18px}
+.kicker{font-family:var(--titolo);font-size:28px;font-weight:600;color:var(--rosso);margin-bottom:10px}
+.ob{font-size:30px;color:var(--acciaio);margin-bottom:36px;max-width:1300px}
+.copertina{justify-content:flex-end;padding-bottom:150px}
+.copertina .sotto{font-family:var(--titolo);font-size:50px;font-weight:500;margin-top:24px;max-width:1300px}
+.copertina .chi{margin-top:48px;font-size:26px;color:var(--acciaio)}
+.due{display:grid;grid-template-columns:1fr 1fr;gap:56px;flex:1}
+.col{background:var(--carta);border-top:8px solid var(--grafite);padding:26px 30px;overflow:hidden}
+.passi{list-style:none;display:flex;flex-direction:column;gap:14px}
+.passi li{font-size:25px;line-height:1.3}
+.passi code,.err code{display:block;font-family:var(--mono);font-size:19px;color:var(--acciaio);margin-top:4px;word-break:break-all}
+.err code{display:inline;color:var(--grafite)}
+.lab{font-family:var(--titolo);font-size:22px;font-weight:600;color:var(--rosso);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.05em}
+.err{list-style:none;display:flex;flex-direction:column;gap:12px}
+.err li{font-size:22px;line-height:1.3;padding-left:26px;position:relative}
+.err li::before{content:"";position:absolute;left:0;top:.55em;width:12px;height:4px;background:var(--rosso)}
+.due .err li{font-size:26px}
+.grande{font-size:38px;line-height:1.4;padding-left:50px;display:flex;flex-direction:column;gap:22px;max-width:1300px}
+ul.grande{list-style:none;padding-left:0}
+ul.grande li{padding-left:40px;position:relative}
+ul.grande li::before{content:"";position:absolute;left:0;top:.62em;width:18px;height:5px;background:var(--grafite)}
+blockquote{background:var(--carta);border-left:10px solid var(--rosso);padding:30px 36px;font-size:29px;line-height:1.45;max-width:1380px}
+.piede{position:absolute;left:110px;right:110px;bottom:40px;display:flex;justify-content:space-between;font-size:22px;color:var(--acciaio)}
+@media print{
+  @page{size:1600px 900px;margin:0}
+  html,body{overflow:visible;height:auto;background:none}
+  #palco{position:static;transform:none!important}
+  .slide{display:flex!important;position:relative;width:1600px;height:900px;break-after:page}
+}
+</style>
+</head>
+<body>
+<div id="palco">
+<section class="slide copertina"><p class="kicker">Corso Claude Code per agenti MAK</p><h1>Installare Claude Code</h1><p class="sotto">Verifica insieme: chi è pronto parte, chi è indietro si sistema adesso.</p><p class="chi">Comandi verificati sulla documentazione ufficiale il 21 ottobre 2026</p></section>
+<section class="slide"><h2>Come facciamo oggi</h2><ol class="grande"><li>Apri VS Code nella tua cartella Claude Workspace.</li><li>Mostra lo screenshot della tabella di verifica (o rifalla adesso).</li><li>Tutte le righe OK: aiuta il vicino. Qualche riga no: la sistemiamo con la guida, fase per fase.</li></ol></section>
+<section class="slide"><p class="kicker">Fase 0 di 9</p><h2>Prima di cominciare</h2><p class="ob">Abbonamento attivo e computer adatto, prima di installare qualsiasi cosa.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Controlla il Mac</strong></li><li><strong>Account Claude con abbonamento Pro</strong></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>Il Mac ha macOS 12 o più vecchio</li><li>Il Mac ha macOS 13 o 14</li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Controlla il PC</strong></li><li><strong>Account Claude con abbonamento Pro</strong></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>Il PC è a 32 bit o ha Windows più vecchio di Windows 10</li><li>Il PC è aziendale e chiede una password di amministratore che non hai</li></ul></div></div></section>
+<section class="slide"><p class="kicker">Fase 1 di 9</p><h2>Il terminale</h2><p class="ob">Saper aprire la finestra in cui si incollano i comandi.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Apri il Terminale</strong></li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Apri PowerShell</strong></li></ul></div></div></section>
+<section class="slide"><p class="kicker">Fase 2 di 9</p><h2>Git</h2><p class="ob">Lo strumento che tiene le versioni dei file: Claude Code lo usa di continuo.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Installa gli strumenti per sviluppatori (Git)</strong><code>xcode-select --install</code></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>Compare «command line tools are already installed»</li><li>La finestra dice che il software non è disponibile o il download si blocca</li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Installa Git per Windows</strong></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>«git» non è riconosciuto come comando</li></ul></div></div></section>
+<section class="slide"><p class="kicker">Fase 3 di 9</p><h2>Claude Code</h2><p class="ob">Installare Claude Code e collegarlo al proprio abbonamento.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Installa Claude Code</strong><code>curl -fsSL https://claude.ai/install.sh | bash</code></li><li><strong>Primo avvio e login</strong><code>claude</code></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>«zsh: command not found: claude»</li><li>«zsh: permission denied: …/.zshrc»</li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Installa Claude Code</strong><code>irm https://claude.ai/install.ps1 | iex</code></li><li><strong>Primo avvio e login</strong><code>claude</code></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>«The term 'claude' is not recognized» oppure «Setup notes: … not in your PATH»</li><li>«'irm' is not recognized»</li></ul></div></div></section>
+<section class="slide"><p class="kicker">Fase 4 di 9</p><h2>La cartella di lavoro</h2><p class="ob">Una cartella dedicata: Claude lavora lì dentro e non altrove.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Crea la cartella «Claude Workspace»</strong></li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Crea la cartella «Claude Workspace»</strong></li></ul></div></div></section>
+<section class="slide"><p class="kicker">Fase 5 di 9</p><h2>VS Code</h2><p class="ob">Il programma da cui useremo Claude Code: file a sinistra, Claude a destra.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Installa VS Code</strong></li><li><strong>Attiva il comando «code»</strong></li><li><strong>Installa l'estensione Claude Code</strong></li><li><strong>Apri la cartella e fai la prima prova</strong></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>L'icona non compare dopo l'installazione</li><li>«Not logged in · Please run /login»</li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Installa VS Code</strong></li><li><strong>Installa l'estensione Claude Code</strong></li><li><strong>Apri la cartella e fai la prima prova</strong></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>«code» non è riconosciuto in PowerShell</li><li>L'icona non compare dopo l'installazione</li></ul></div></div></section>
+<section class="slide"><p class="kicker">Fase 6 di 9</p><h2>Il gestore dei programmi</h2><p class="ob">Il negozio di programmi da riga di comando da cui Claude prende quello che gli serve.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Installa Homebrew</strong><code>/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.…</code></li><li><strong>Prova: fai installare Pandoc a Claude</strong><code>brew install pandoc</code></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>«zsh: command not found: brew»</li><li>Chiede di installare gli strumenti da riga di comando</li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Installa Chocolatey</strong><code>Set-ExecutionPolicy Bypass -Scope Process -Force; [System…</code></li><li><strong>Prova: fai installare Pandoc a Claude</strong><code>choco install pandoc -y</code></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>Errori su «Access denied» o permessi</li><li>Errore «running scripts is disabled» o «not digitally signed»</li></ul></div></div></section>
+<section class="slide"><p class="kicker">Fase 7 di 9</p><h2>GitHub</h2><p class="ob">Il posto online dove si salvano le versioni e si pubblicano i tool.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Crea l'account GitHub</strong></li><li><strong>Collega il Mac a GitHub</strong><code>brew install gh</code></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>Il browser non si apre</li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Crea l'account GitHub</strong></li><li><strong>Collega il PC a GitHub</strong><code>choco install gh -y</code></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>Il browser non si apre</li><li>Chocolatey non trova il pacchetto gh</li></ul></div></div></section>
+<section class="slide"><p class="kicker">Fase 8 di 9</p><h2>Il workspace MAK</h2><p class="ob">La cartella di partenza con il CLAUDE.md da agente MAK e tre skill d'esempio.</p><div class="due"><div class="col"><h3>Mac</h3><ul class="passi"><li><strong>Scarica e prepara il workspace MAK</strong></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>Claude non riesce a leggere la cartella Download</li><li>Le skill non compaiono</li></ul></div><div class="col"><h3>Windows</h3><ul class="passi"><li><strong>Scarica e prepara il workspace MAK</strong></li></ul><p class="lab">Errori tipici</p><ul class="err"><li>Claude non riesce a leggere la cartella Download</li><li>Le skill non compaiono</li></ul></div></div></section>
+<section class="slide"><h2>La verifica</h2><p class="ob">Si incolla nel pannello di Claude, in VS Code:</p><blockquote>Controlla che il mio computer sia pronto per il corso di Claude Code. Esegui tu i comandi che servono, senza installare né modificare nulla. Alla fine mostrami solo una tabella con tre colonne (Cosa, Versione o stato, OK?) per: Claude Code, Git, VS Code (se il comando code non risponde, controlla se l'app è installata: su Mac in /Applications, su Windows nella cartella Programs di AppData\Local), Homebrew se sono su Mac oppure Chocolatey se sono su Windows, Pandoc, GitHub CLI e login a GitHub, il file CLAUDE.md di questa cartella (OK solo se non contiene più parti tra [[ ]]), le skill messaggio-settimanale, riassunto-visita e nuovo-tool nella cartella .claude/skills. Sotto la tabella, per ogni riga che non è OK, scrivi in una frase cosa devo fare.</blockquote></section>
+<section class="slide"><h2>Dove ci si blocca di solito</h2><div class="due"><div class="col"><h3>Mac</h3><ul class="err"><li><code>command not found: claude</code>: manca il PATH (due comandi nella guida)</li><li><code>command not found: brew</code>: saltati i «Next steps» di Homebrew</li><li>VS Code non vede un programma appena installato: chiudi e riapri VS Code</li></ul></div><div class="col"><h3>Windows</h3><ul class="err"><li><code>'claude' is not recognized</code>: manca <code>%USERPROFILE%\.local\bin</code> nel PATH</li><li><code>'irm' is not recognized</code>: sei nel Prompt dei comandi, non in PowerShell</li><li>Chocolatey: PowerShell va aperta «come amministratore»</li></ul></div></div></section>
+<section class="slide"><h2>E adesso si lavora</h2><ul class="grande"><li>Come si parla a Claude: il risultato e il contesto, non i passaggi.</li><li>Il tuo CLAUDE.md: cosa sa Claude di te e dei tuoi clienti.</li><li>Le skill: le cose che fai ogni settimana diventano un comando.</li><li>Primo tool: da un tuo Excel a una pagina da consultare dal telefono.</li></ul></section>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var palco = document.getElementById('palco');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var n = slides.length;
+  slides.forEach(function (s, i) {
+    var piede = document.createElement('div');
+    piede.className = 'piede';
+    piede.innerHTML = '<span>Installare Claude Code · agenti MAK</span><span>' + (i + 1) + ' / ' + n + '</span>';
+    s.appendChild(piede);
+  });
+  var cur = Math.min(Math.max(parseInt(location.hash.slice(1), 10) || 1, 1), n) - 1;
+  function mostra(i) {
+    cur = Math.min(Math.max(i, 0), n - 1);
+    slides.forEach(function (s, k) { s.classList.toggle('attiva', k === cur); });
+    history.replaceState(null, '', '#' + (cur + 1));
+  }
+  function adatta() {
+    var sc = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    palco.style.transform = 'translate(-50%,-50%) scale(' + sc + ')';
+  }
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].indexOf(e.key) > -1) { e.preventDefault(); mostra(cur + 1); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].indexOf(e.key) > -1) { e.preventDefault(); mostra(cur - 1); }
+    else if (e.key === 'Home') mostra(0);
+    else if (e.key === 'End') mostra(n - 1);
+    else if (e.key === 'f' || e.key === 'F') {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+    }
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    if (e.clientX < window.innerWidth / 4) mostra(cur - 1); else mostra(cur + 1);
+  });
+  window.addEventListener('resize', adatta);
+  adatta();
+  mostra(cur);
+});
+</script>
+</body>
+</html>

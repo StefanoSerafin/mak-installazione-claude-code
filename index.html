@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f4f3ef">
+<title>Installare Claude Code</title>
+<style>
+  :root{
+    --bg:#f4f3ef; --panel:#ffffff; --panel-2:#f0eee8;
+    --ink:#1a1c20; --ink-soft:#5b5e64; --hair:#d9d7cc;
+    --accent:#d8322c; --accent-ink:#ffffff;
+    --ok:#1c7c3c; --ok-bg:#e4f2e6;
+    --amber:#8a5d00; --amber-bg:#fbf1d9;
+    --code-bg:#1e2128; --code-ink:#ecece7;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Roboto Mono",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#16181d; --panel:#1e2128; --panel-2:#23262e;
+      --ink:#ecece7; --ink-soft:#9a9da4; --hair:#31343d;
+      --accent:#e5433d; --accent-ink:#ffffff;
+      --ok:#5fd07f; --ok-bg:#16281b;
+      --amber:#f5b301; --amber-bg:#2b2410;
+      --code-bg:#0f1115; --code-ink:#ecece7;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#16181d; --panel:#1e2128; --panel-2:#23262e;
+    --ink:#ecece7; --ink-soft:#9a9da4; --hair:#31343d;
+    --accent:#e5433d; --accent-ink:#ffffff;
+    --ok:#5fd07f; --ok-bg:#16281b;
+    --amber:#f5b301; --amber-bg:#2b2410;
+    --code-bg:#0f1115; --code-ink:#ecece7;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px 64px}
+
+  header{padding:28px 0 8px}
+  .marchio{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px}
+  h1{font-size:30px;line-height:1.15;margin:0 0 8px}
+  .sotto{margin:0 0 6px;color:var(--ink-soft)}
+  .scadenza{margin:8px 0 0}
+
+  /* scelta del sistema: radio + label */
+  .sistemi{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--hair);margin-bottom:8px}
+  .scelta{display:flex;gap:8px}
+  .scelta input{position:absolute;opacity:0;pointer-events:none}
+  .scelta label{flex:1;text-align:center;padding:12px 8px;border:2px solid var(--hair);border-radius:10px;background:var(--panel);font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .scelta input:checked + label{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+  .scelta input:focus-visible + label{outline:3px solid var(--accent);outline-offset:2px}
+  .avanz{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:14px;color:var(--ink-soft)}
+  .barra{flex:1;height:8px;background:var(--panel-2);border-radius:4px;overflow:hidden}
+  .barra i{display:block;height:100%;width:0;background:var(--ok);transition:width .25s}
+
+  .guida{display:none}
+  body.os-mac #guida-mac, body.os-windows #guida-windows{display:block}
+  .avviso{background:var(--amber-bg);color:var(--ink);border-left:4px solid var(--amber);padding:12px 14px;border-radius:6px;margin:16px 0}
+  .intro{color:var(--ink-soft);margin:16px 0 0}
+
+  .fase h2{font-size:22px;margin:36px 0 2px}
+  .fase h2 span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .obiettivo{margin:0 0 12px;color:var(--ink-soft)}
+
+  .passo{background:var(--panel);border:1px solid var(--hair);border-radius:12px;padding:14px 16px;margin:12px 0}
+  .passo-testa{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .spunta{width:24px;height:24px;flex:none;accent-color:var(--ok);margin:0}
+  .num{flex:none;width:26px;height:26px;border-radius:50%;background:var(--panel-2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .tit{flex:1;font-weight:700;font-size:17px;line-height:1.3}
+  .min{flex:none;font-size:13px;color:var(--ink-soft)}
+  .passo.fatto{background:var(--ok-bg);border-color:transparent}
+  .passo.fatto .tit{text-decoration:line-through;text-decoration-color:var(--ok)}
+  .perche{margin:8px 0 6px;color:var(--ink-soft);font-size:15px}
+  .fai{margin:6px 0 10px;padding-left:22px}
+  .fai li{margin:4px 0}
+  .vedi{margin:10px 0 4px;padding:10px 12px;background:var(--ok-bg);border-radius:8px;font-size:15px}
+  .vedi b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ok)}
+  .nonva{margin:8px 0 0}
+  .nonva summary{cursor:pointer;font-weight:600;color:var(--accent);padding:6px 0}
+  .nonva ul{margin:4px 0 0;padding-left:18px}
+  .nonva li{margin:8px 0}
+  .fonte{margin:8px 0 0;font-size:12px;color:var(--ink-soft);word-break:break-all}
+
+  .cmd{margin:10px 0;border-radius:8px;overflow:hidden;background:var(--code-bg);color:var(--code-ink)}
+  .cmd-testa{display:flex;justify-content:space-between;align-items:center;padding:6px 8px 6px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#9a9da4}
+  .cmd pre{margin:0;padding:4px 12px 12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+  .cmd code{font-family:var(--mono);font-size:14px;line-height:1.45}
+  .copia{border:0;border-radius:6px;padding:8px 14px;background:#ecece7;color:#1a1c20;font-weight:700;font-size:14px;cursor:pointer;min-height:36px}
+  .copia.ok{background:#5fd07f}
+  .bottone{display:inline-block;padding:12px 16px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none}
+
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--hair);font-size:14px;color:var(--ink-soft)}
+  footer p{margin:6px 0}
+  .azzera{border:1px solid var(--hair);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer}
+  .solostampa{display:none}
+
+  @media print{
+    @page{size:A4;margin:14mm 12mm}
+    body{background:#fff;color:#000;font-size:11pt}
+    :root{--panel:#fff;--panel-2:#eee;--ink:#000;--ink-soft:#444;--hair:#bbb;--ok-bg:#fff;--ok:#000;--amber-bg:#fff;--code-bg:#f2f2f2;--code-ink:#000}
+    .noprint,.sistemi,.azzera{display:none!important}
+    .solostampa{display:block}
+    .guida{display:none!important}
+    body.os-mac #guida-mac, body.os-windows #guida-windows{display:block!important}
+    .wrap{max-width:none;padding:0}
+    .passo{break-inside:avoid;border-color:#999;padding:10px 12px}
+    .passo.fatto{background:#fff}.passo.fatto .tit{text-decoration:none}
+    .spunta{appearance:none;-webkit-appearance:none;border:1.5px solid #000;border-radius:3px;width:16px;height:16px}
+    .vedi{border:1px solid #999}
+    .cmd{border:1px solid #999}
+    .cmd-testa{color:#444}
+    .fase h2{break-after:avoid}
+    .fonte a{text-decoration:none}
+  }
+</style>
+</head>
+<body class="os-mac">
+<div class="wrap">
+  <header>
+    <p class="marchio">Corso Claude Code · agenti MAK</p>
+    <h1>Installare Claude Code <span class="solostampa-os"></span></h1>
+    <p class="sotto">La lista da seguire a casa, prima dell'incontro, per arrivare con il computer pronto.</p>
+    <p class="scadenza solostampa">Da finire entro il ____________________</p>
+  </header>
+
+  <div class="sistemi noprint">
+    <div class="scelta" role="radiogroup" aria-label="Sistema operativo">
+      <input type="radio" name="os" id="os-mac" value="mac" checked><label for="os-mac">Mac</label>
+      <input type="radio" name="os" id="os-windows" value="windows"><label for="os-windows">Windows</label>
+    </div>
+    <div class="avanz"><div class="barra"><i id="barra"></i></div><span id="conta">0 / 0</span></div>
+  </div>
+
+  <div class="guida" id="guida-mac">
+    <p class="intro"><strong>Guida per Mac.</strong> Circa 91 minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, scrivi a Stefano con uno screenshot.</p>
+    <section class="fase"><h2><span>Fase 0</span> Prima di cominciare</h2><p class="obiettivo">Abbonamento attivo e computer adatto, prima di installare qualsiasi cosa.</p>
+<article class="passo" id="mac-requisiti">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-requisiti"><span class="num">1</span><span class="tit">Controlla il Mac</span><span class="min">2 min</span></label>
+<p class="perche">Claude Code chiede macOS 13 o più recente; Homebrew (fase 6) è pensato per macOS 15 o più recente.</p>
+<ol class="fai"><li>Menu Apple (la mela in alto a sinistra) → «Informazioni su questo Mac»: leggi la versione di macOS (deve essere 13 Ventura o più recente).</li><li>Tieni a portata di mano la password con cui sblocchi il Mac: verrà chiesta più volte.</li><li>Mettiti con 60–90 minuti liberi e una connessione stabile (meglio Wi-Fi di casa che hotspot del telefono).</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> macOS 13 o superiore. Con macOS 15 Sequoia o più recente sei a posto per tutto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Il Mac ha macOS 12 o più vecchio</b> — Aggiorna macOS da Impostazioni di Sistema → Generali → Aggiornamento Software prima di andare avanti. Se il Mac non si aggiorna, scrivi a Stefano.</li><li><b>Il Mac ha macOS 13 o 14</b> — Claude Code va bene. Homebrew non è ufficialmente supportato ma di solito funziona: vai avanti e, se alla fase 6 dà errore, scrivi a Stefano.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a></p>
+</article>
+<article class="passo" id="mac-account">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-account"><span class="num">2</span><span class="tit">Account Claude con abbonamento Pro</span><span class="min">5 min</span></label>
+<p class="perche">Claude Code non è incluso nel piano gratuito: serve almeno Pro.</p>
+<ol class="fai"><li>Vai su claude.ai e crea l'account con la tua email (o entra, se l'hai già).</li><li>In basso a sinistra clicca sul tuo nome → «Impostazioni» → «Abbonamento» (o «Upgrade») e attiva <strong>Pro</strong>.</li><li>Prezzo indicativo: 20 $ al mese, oppure circa 17 $ al mese pagando l'anno intero. Pro ha limiti d'uso che si azzerano ogni cinque ore più un limite settimanale.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Nelle impostazioni di claude.ai il piano risulta «Pro».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Il pagamento non va a buon fine</b> — Prova un'altra carta o fai l'abbonamento dall'app Claude su iPhone. Se resta bloccato, scrivi a Stefano.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 1</span> Il terminale</h2><p class="obiettivo">Saper aprire la finestra in cui si incollano i comandi.</p>
+<article class="passo" id="mac-terminale">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-terminale"><span class="num">3</span><span class="tit">Apri il Terminale</span><span class="min">1 min</span></label>
+<p class="perche">Le installazioni si fanno incollando un comando in questa finestra.</p>
+<ol class="fai"><li>Premi ⌘ + Spazio, scrivi «Terminale» e premi Invio.</li><li>Per incollare un comando: ⌘ + V, poi Invio.</li><li>Mentre scrivi una password nel Terminale non compare nulla, nemmeno gli asterischi: è normale. Scrivila e premi Invio.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Una finestra con una riga che finisce con il simbolo %.</p>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 2</span> Git</h2><p class="obiettivo">Lo strumento che tiene le versioni dei file: Claude Code lo usa di continuo.</p>
+<article class="passo" id="mac-git">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-git"><span class="num">4</span><span class="tit">Installa gli strumenti per sviluppatori (Git)</span><span class="min">15 min</span></label>
+<p class="perche">Su Mac Git arriva con gli «strumenti da riga di comando» di Apple. Servono anche a Homebrew.</p>
+<ol class="fai"><li>Incolla il comando nel Terminale e premi Invio.</li><li>Si apre una finestra: clicca «Installa», poi «Accetto» sulla licenza. Ci vogliono 5–15 minuti.</li><li>Finita l'installazione, nel Terminale scrivi git --version e premi Invio.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>xcode-select --install</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> git --version risponde con una riga del tipo «git version 2.50.1 (Apple Git-…)».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Compare «command line tools are already installed»</b> — Sono già installati: vai al passo successivo.</li><li><b>La finestra dice che il software non è disponibile o il download si blocca</b> — Controlla la connessione e riprova. Se si blocca ancora, salta: Homebrew (fase 6) li installa da solo. Avvisa Stefano.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://git-scm.com/downloads/mac" target="_blank" rel="noopener">git-scm.com/downloads/mac</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 3</span> Claude Code</h2><p class="obiettivo">Installare Claude Code e collegarlo al proprio abbonamento.</p>
+<article class="passo" id="mac-claude">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-claude"><span class="num">5</span><span class="tit">Installa Claude Code</span><span class="min">5 min</span></label>
+<p class="perche">È il comando ufficiale di Anthropic. Claude Code poi si aggiorna da solo.</p>
+<ol class="fai"><li>Incolla il comando nel Terminale e premi Invio. Durante lo scaricamento non si vede nessun avanzamento: aspetta che torni il %.</li><li>Chiudi il Terminale (⌘ + Q) e riaprilo.</li><li>Scrivi claude --version e premi Invio.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Un numero di versione, per esempio «2.1.226 (Claude Code)».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«zsh: command not found: claude»</b> — La cartella di Claude non è nel PATH (l'elenco dei posti dove il Mac cerca i programmi). Incolla questi due comandi, poi riprova claude --version:<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>echo 'export PATH="$HOME/.local/bin:$PATH"' &gt;&gt; ~/.zshrc
+source ~/.zshrc</code></pre></div></li><li><b>«zsh: permission denied: …/.zshrc»</b> — Il file delle impostazioni è bloccato. Incolla il comando, poi ripeti i due comandi del caso precedente:<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>chmod u+w ~/.zshrc</code></pre></div></li><li><b>«syntax error near unexpected token '&lt;'» oppure un errore 403</b> — La rete blocca lo scaricamento (succede con alcune reti aziendali o pubbliche). Riprova da casa o da un'altra connessione; se l'errore resta, scrivi a Stefano.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/troubleshoot-install" target="_blank" rel="noopener">code.claude.com/docs/en/troubleshoot-install</a></p>
+</article>
+<article class="passo" id="mac-login">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-login"><span class="num">6</span><span class="tit">Primo avvio e login</span><span class="min">3 min</span></label>
+<p class="perche">Collega Claude Code al tuo abbonamento Pro.</p>
+<ol class="fai"><li>Nel Terminale scrivi claude e premi Invio.</li><li>Scegli il tema (chiaro o scuro) con le frecce e Invio.</li><li>Scegli l'accesso con l'account Claude (abbonamento), non con la «Console» o le API.</li><li>Si apre il browser: entra con il tuo account e clicca «Autorizza». Torna al Terminale.</li><li>Esci da Claude scrivendo /exit e premendo Invio.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>claude</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Dopo il login, il messaggio di benvenuto di Claude Code e la riga in cui scrivere.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Il browser non si apre</b> — Nel Terminale premi il tasto c: l'indirizzo di accesso viene copiato. Incollalo nel browser e completa il login.</li><li><b>«OAuth error: Invalid code»</b> — Il codice è scaduto. Premi Invio per riprovare e completa il login subito dopo l'apertura del browser.</li><li><b>«API Error: 403» dopo il login</b> — L'abbonamento non risulta attivo: controlla su claude.ai/settings che il piano sia Pro, poi riprova.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/troubleshoot-install" target="_blank" rel="noopener">code.claude.com/docs/en/troubleshoot-install</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 4</span> La cartella di lavoro</h2><p class="obiettivo">Una cartella dedicata: Claude lavora lì dentro e non altrove.</p>
+<article class="passo" id="mac-cartella">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-cartella"><span class="num">7</span><span class="tit">Crea la cartella «Claude Workspace»</span><span class="min">1 min</span></label>
+<p class="perche">Claude lavora solo dentro la cartella che gli apri. Mai la cartella Inizio intera o la Scrivania piena di file.</p>
+<ol class="fai"><li>Apri il Finder → «Documenti».</li><li>Tasto destro su uno spazio vuoto → «Nuova cartella» e chiamala Claude Workspace.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Documenti → Claude Workspace, vuota.</p>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 5</span> VS Code</h2><p class="obiettivo">Il programma da cui useremo Claude Code: file a sinistra, Claude a destra.</p>
+<article class="passo" id="mac-vscode">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-vscode"><span class="num">8</span><span class="tit">Installa VS Code</span><span class="min">5 min</span></label>
+<p class="perche">È l'editor gratuito di Microsoft da cui useremo Claude Code, uguale su Mac e Windows.</p>
+<ol class="fai"><li>Vai su code.visualstudio.com e clicca il pulsante di download per Mac.</li><li>Apri il file scaricato e trascina «Visual Studio Code» nella cartella Applicazioni.</li><li>Apri VS Code da Applicazioni. Se il Mac avvisa che è un'app scaricata da Internet, clicca «Apri».</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> VS Code aperto, con la schermata «Welcome».</p>
+<p class="fonte">Fonte: <a href="https://code.visualstudio.com/docs/setup/mac" target="_blank" rel="noopener">code.visualstudio.com/docs/setup/mac</a></p>
+</article>
+<article class="passo" id="mac-code-path">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-code-path"><span class="num">9</span><span class="tit">Attiva il comando «code»</span><span class="min">2 min</span></label>
+<p class="perche">Serve alla verifica finale e per aprire una cartella in VS Code dal Terminale.</p>
+<ol class="fai"><li>In VS Code premi ⌘ + ⇧ + P, scrivi shell command e scegli «Shell Command: Install 'code' … in PATH».</li><li>Se chiede di installare anche GitHub Copilot CLI, rispondi «No».</li><li>Chiudi e riapri il Terminale.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Nel Terminale, code --version risponde con un numero di versione.</p>
+<p class="fonte">Fonte: <a href="https://code.visualstudio.com/docs/setup/mac" target="_blank" rel="noopener">code.visualstudio.com/docs/setup/mac</a></p>
+</article>
+<article class="passo" id="mac-estensione">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-estensione"><span class="num">10</span><span class="tit">Installa l'estensione Claude Code</span><span class="min">2 min</span></label>
+<p class="perche">Mette Claude dentro VS Code, in un pannello a destra.</p>
+<ol class="fai"><li>In VS Code premi ⌘ + ⇧ + X (Estensioni).</li><li>Cerca Claude Code e controlla che l'editore sia <strong>Anthropic</strong> (con il bollino blu di verifica).</li><li>Clicca «Install».</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Nella barra a sinistra compare l'icona a scintilla di Claude; in basso a destra la scritta «✻ Claude Code».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>L'icona non compare dopo l'installazione</b> — Premi ⌘ + ⇧ + P, scrivi Developer: Reload Window e premi Invio.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+<article class="passo" id="mac-prova">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-prova"><span class="num">11</span><span class="tit">Apri la cartella e fai la prima prova</span><span class="min">5 min</span></label>
+<p class="perche">È la prova che tutto funziona: Claude crea un file vero nella tua cartella.</p>
+<ol class="fai"><li>In VS Code: menu File → «Open Folder…» → Documenti → Claude Workspace → «Open».</li><li>Alla domanda «Do you trust the authors of the files in this folder?» rispondi «Yes, I trust the authors»: è la tua cartella.</li><li>Clicca «✻ Claude Code» in basso a destra (o l'icona a scintilla). La prima volta clicca «Sign in» e completa il login nel browser.</li><li>Scrivi a Claude: Che modello sei?</li><li>Poi: Crea un file di testo con le cose che puoi fare per me. Quando chiede il permesso di creare il file, accetta.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Nell'elenco dei file a sinistra compare il file di testo creato da Claude.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«Not logged in · Please run /login»</b> — Premi ⌘ + ⇧ + P → Developer: Reload Window: la schermata di accesso si riapre.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 6</span> Il gestore dei programmi</h2><p class="obiettivo">Il negozio di programmi da riga di comando da cui Claude prende quello che gli serve.</p>
+<article class="passo" id="mac-homebrew">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-homebrew"><span class="num">12</span><span class="tit">Installa Homebrew</span><span class="min">10 min</span></label>
+<p class="perche">Homebrew installa con un comando i programmi che servono alle skill (per esempio Pandoc per i documenti, ffmpeg per i video). Poi è Claude a usarlo.</p>
+<ol class="fai"><li>Incolla il comando nel Terminale e premi Invio.</li><li>Ti chiede la password del Mac (non vedrai i caratteri) e poi di premere Invio per confermare. Ci vogliono alcuni minuti.</li><li><strong>Importante</strong>: alla fine compare la sezione «Next steps» con due o tre comandi. Copiali ed eseguili uno alla volta, esattamente come sono scritti.</li><li>Chiudi e riapri il Terminale e scrivi brew --version.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> brew --version risponde con «Homebrew» e un numero di versione.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«zsh: command not found: brew»</b> — Hai saltato i «Next steps». Sui Mac con chip Apple incolla questi due comandi, poi riprova:<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' &gt;&gt; ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</code></pre></div></li><li><b>Chiede di installare gli strumenti da riga di comando</b> — Conferma e lascia finire: è il passo Git che non era andato a buon fine.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://docs.brew.sh/Installation" target="_blank" rel="noopener">docs.brew.sh/Installation</a></p>
+</article>
+<article class="passo" id="mac-pandoc">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-pandoc"><span class="num">13</span><span class="tit">Prova: fai installare Pandoc a Claude</span><span class="min">5 min</span></label>
+<p class="perche">È il modo in cui lavorerai davvero: dici a Claude cosa ti serve e lui installa lo strumento con Homebrew.</p>
+<ol class="fai"><li>In VS Code, nel pannello di Claude, scrivi: Sono su Mac e ho Homebrew. Installa Pandoc e trasforma il file di testo che hai creato in un documento Word.</li><li>Quando Claude chiede il permesso di eseguire il comando di installazione, accetta.</li><li>Se preferisci farlo a mano, il comando per il Terminale è qui sotto.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>brew install pandoc</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Nella cartella compare un file .docx che si apre con Word o Pages.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude dice che brew non esiste</b> — Chiudi e riapri VS Code (prende il PATH all'avvio), poi ripeti la richiesta.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://docs.brew.sh/Installation" target="_blank" rel="noopener">docs.brew.sh/Installation</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 7</span> GitHub</h2><p class="obiettivo">Il posto online dove si salvano le versioni e si pubblicano i tool.</p>
+<article class="passo" id="mac-github-account">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-github-account"><span class="num">14</span><span class="tit">Crea l'account GitHub</span><span class="min">5 min</span></label>
+<p class="perche">Su GitHub si salvano le versioni del lavoro e si pubblicano i tool come pagine web. Il piano gratuito basta.</p>
+<ol class="fai"><li>Vai su github.com e clicca «Sign up».</li><li>Usa la tua email, scegli una password e un nome utente (ti suggerisco nome e cognome, senza spazi).</li><li>Conferma l'email con il codice che ti arriva.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Sei dentro github.com con il tuo nome utente in alto a destra.</p>
+<p class="fonte">Fonte: <a href="https://cli.github.com/" target="_blank" rel="noopener">cli.github.com/</a></p>
+</article>
+<article class="passo" id="mac-gh">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-gh"><span class="num">15</span><span class="tit">Collega il Mac a GitHub</span><span class="min">5 min</span></label>
+<p class="perche">Con GitHub CLI Claude può salvare e pubblicare il lavoro senza che tu debba scrivere password.</p>
+<ol class="fai"><li>Nel Terminale incolla brew install gh e premi Invio.</li><li>Poi scrivi gh auth login e rispondi così: GitHub.com → HTTPS → Yes (authenticate Git) → Login with a web browser.</li><li>Il Terminale mostra un codice di 8 caratteri: copialo, premi Invio, incollalo nella pagina che si apre e clicca «Authorize».</li><li>Controlla con gh auth status.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>brew install gh
+gh auth login</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> gh auth status risponde «Logged in to github.com account …».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Il browser non si apre</b> — Apri a mano github.com/login/device e incolla il codice.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://cli.github.com/" target="_blank" rel="noopener">cli.github.com/</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 8</span> Il workspace MAK</h2><p class="obiettivo">La cartella di partenza con il CLAUDE.md da agente MAK e tre skill d'esempio.</p>
+<article class="passo" id="mac-workspace">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-workspace"><span class="num">16</span><span class="tit">Scarica e prepara il workspace MAK</span><span class="min">15 min</span></label>
+<p class="perche">Così non parti da una cartella vuota: Claude sa già che sei un agente MAK e ha tre skill pronte.</p>
+<ol class="fai"><li>Scarica lo zip con il pulsante qui sotto: finisce in Download.</li><li>In VS Code, nel pannello di Claude, scrivi: Nella cartella Download c'è claude-workspace-mak.zip. Scompattalo qui nella cartella di lavoro, mantenendo le sottocartelle.</li><li>Apri una nuova conversazione con Claude (le skill si caricano all'inizio di ogni conversazione).</li><li>Scrivi: Leggi CLAUDE.md e fammi l'intervista per completare le parti tra [[ ]]. Rispondi alle domande.</li></ol>
+<p class="noprint"><a class="bottone" href="claude-workspace-mak.zip" download>Scarica claude-workspace-mak.zip</a></p><p class="solostampa">Lo zip si scarica dalla web app (indirizzo in fondo).</p>
+<p class="vedi"><b>Cosa devi vedere</b> A sinistra ci sono CLAUDE.md e le cartelle Clienti, Listini, Campagne, Tool. Scrivendo / nella chat compaiono messaggio-settimanale, riassunto-visita e nuovo-tool.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude non riesce a leggere la cartella Download</b> — Fai doppio clic sullo zip nel Finder: si crea la cartella «claude-workspace-mak». Premi ⌘ + ⇧ + . (punto) per vedere anche la cartella nascosta .claude, seleziona tutto il contenuto e trascinalo in Documenti → Claude Workspace.</li><li><b>Le skill non compaiono</b> — Controlla che dentro Claude Workspace ci sia la cartella .claude/skills, poi apri una nuova conversazione.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 9</span> Verifica finale</h2><p class="obiettivo">Claude controlla da solo che sia tutto a posto: lo screenshot si porta all'incontro.</p>
+<article class="passo" id="mac-verifica">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac-verifica"><span class="num">17</span><span class="tit">Fai controllare tutto a Claude</span><span class="min">5 min</span></label>
+<p class="perche">Una sola tabella che dice cosa è a posto e cosa no: è quella che si guarda all'incontro.</p>
+<ol class="fai"><li>In VS Code, nel pannello di Claude, incolla il messaggio di verifica (pulsante «Copia» qui sotto).</li><li>Quando Claude chiede il permesso di eseguire i comandi di controllo, accetta.</li><li>Fai uno screenshot della tabella: ⌘ + ⇧ + 4 e trascina sulla zona. Portalo all'incontro.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Messaggio da incollare in Claude</span><button type="button" class="copia noprint">Copia</button></div><pre><code>Controlla che il mio computer sia pronto per il corso di Claude Code. Esegui tu i comandi che servono, senza installare né modificare nulla. Alla fine mostrami solo una tabella con tre colonne (Cosa, Versione o stato, OK?) per: Claude Code, Git, VS Code (se il comando code non risponde, controlla se l'app è installata: su Mac in /Applications, su Windows nella cartella Programs di AppData\Local), Homebrew se sono su Mac oppure Chocolatey se sono su Windows, Pandoc, GitHub CLI e login a GitHub, il file CLAUDE.md di questa cartella (OK solo se non contiene più parti tra [[ ]]), le skill messaggio-settimanale, riassunto-visita e nuovo-tool nella cartella .claude/skills. Sotto la tabella, per ogni riga che non è OK, scrivi in una frase cosa devo fare.</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Una tabella con tutte le righe OK. Se qualche riga non lo è, Claude spiega cosa fare.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Una riga resta non OK dopo aver seguito il consiglio di Claude</b> — Va bene lo stesso: porta lo screenshot all'incontro e la sistemiamo insieme, oppure scrivi a Stefano.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a></p>
+</article>
+</section>
+  </div>
+
+  <div class="guida" id="guida-windows">
+    <div class="avviso"><strong>Guida Windows non ancora provata su un PC.</strong> È scritta sulla documentazione ufficiale, ma nessuno l'ha ancora seguita dall'inizio alla fine. Se un passaggio non va come descritto, scrivi a Stefano con uno screenshot: la correggiamo per tutti.</div>
+    <p class="intro"><strong>Guida per Windows.</strong> Circa 79 minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, scrivi a Stefano con uno screenshot.</p>
+    <section class="fase"><h2><span>Fase 0</span> Prima di cominciare</h2><p class="obiettivo">Abbonamento attivo e computer adatto, prima di installare qualsiasi cosa.</p>
+<article class="passo" id="win-requisiti">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-requisiti"><span class="num">1</span><span class="tit">Controlla il PC</span><span class="min">2 min</span></label>
+<p class="perche">Claude Code chiede Windows 10 (versione 1809 o successiva) o Windows 11, a 64 bit, con almeno 4 GB di memoria.</p>
+<ol class="fai"><li>Impostazioni → Sistema → Informazioni su: guarda «Tipo sistema» (deve essere 64 bit), la memoria installata (RAM) e, più sotto, la versione di Windows.</li><li>Tieni a portata di mano la password del tuo utente Windows.</li><li>Mettiti con 60–90 minuti liberi e una connessione stabile.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Windows 10 o 11, sistema operativo a 64 bit, 4 GB di RAM o più.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Il PC è a 32 bit o ha Windows più vecchio di Windows 10</b> — Claude Code non si installa: scrivi a Stefano prima di andare avanti.</li><li><b>Il PC è aziendale e chiede una password di amministratore che non hai</b> — Fermati e scrivi a Stefano: servono i permessi per installare programmi.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a></p>
+</article>
+<article class="passo" id="win-account">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-account"><span class="num">2</span><span class="tit">Account Claude con abbonamento Pro</span><span class="min">5 min</span></label>
+<p class="perche">Claude Code non è incluso nel piano gratuito: serve almeno Pro.</p>
+<ol class="fai"><li>Vai su claude.ai e crea l'account con la tua email (o entra, se l'hai già).</li><li>In basso a sinistra clicca sul tuo nome → «Impostazioni» → «Abbonamento» (o «Upgrade») e attiva <strong>Pro</strong>.</li><li>Prezzo indicativo: 20 $ al mese, oppure circa 17 $ al mese pagando l'anno intero. Pro ha limiti d'uso che si azzerano ogni cinque ore più un limite settimanale.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Nelle impostazioni di claude.ai il piano risulta «Pro».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Il pagamento non va a buon fine</b> — Prova un'altra carta o fai l'abbonamento dall'app Claude sul telefono. Se resta bloccato, scrivi a Stefano.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 1</span> Il terminale</h2><p class="obiettivo">Saper aprire la finestra in cui si incollano i comandi.</p>
+<article class="passo" id="win-terminale">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-terminale"><span class="num">3</span><span class="tit">Apri PowerShell</span><span class="min">1 min</span></label>
+<p class="perche">Le installazioni si fanno incollando un comando in PowerShell. Per Claude Code non servono i permessi di amministratore; serviranno solo per Chocolatey (fase 6).</p>
+<ol class="fai"><li>Premi il tasto Windows, scrivi PowerShell e apri «Windows PowerShell» (non quella con «x86» nel nome).</li><li>Per incollare un comando: tasto destro del mouse oppure Ctrl + V, poi Invio.</li><li>Mentre scrivi una password non compare nulla: è normale.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Una finestra blu o nera con una riga che inizia con PS C:\Users\TuoNome&gt;. Se manca «PS» all'inizio sei nel Prompt dei comandi, non in PowerShell.</p>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 2</span> Git</h2><p class="obiettivo">Lo strumento che tiene le versioni dei file: Claude Code lo usa di continuo.</p>
+<article class="passo" id="win-git">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-git"><span class="num">4</span><span class="tit">Installa Git per Windows</span><span class="min">10 min</span></label>
+<p class="perche">È consigliato da Anthropic: con Git per Windows Claude Code usa Git Bash per eseguire i comandi e può tenere le versioni dei file.</p>
+<ol class="fai"><li>Vai su git-scm.com/downloads/win e scarica l'installer «Git for Windows/x64 Setup».</li><li>Aprilo e installa lasciando tutte le opzioni predefinite: Next, Next, … Install, Finish.</li><li>Chiudi PowerShell e riaprilo. Scrivi git --version e premi Invio.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> git --version risponde con una riga del tipo «git version 2.x.x.windows.1».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«git» non è riconosciuto come comando</b> — Chiudi tutte le finestre di PowerShell e riaprile. Se non basta, riavvia il PC.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 3</span> Claude Code</h2><p class="obiettivo">Installare Claude Code e collegarlo al proprio abbonamento.</p>
+<article class="passo" id="win-claude">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-claude"><span class="num">5</span><span class="tit">Installa Claude Code</span><span class="min">5 min</span></label>
+<p class="perche">È il comando ufficiale di Anthropic per PowerShell. Claude Code poi si aggiorna da solo.</p>
+<ol class="fai"><li>Incolla il comando in PowerShell e premi Invio. Durante lo scaricamento non si vede nessun avanzamento: aspetta che torni il prompt.</li><li>Leggi la fine del messaggio: se compare «Setup notes: … is not in your PATH», vai al primo caso di «Se non va» qui sotto.</li><li>Chiudi PowerShell e riaprilo. Scrivi claude --version e premi Invio.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>irm https://claude.ai/install.ps1 | iex</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Un numero di versione, per esempio «2.1.226 (Claude Code)».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«The term 'claude' is not recognized» oppure «Setup notes: … not in your PATH»</b> — La cartella di Claude non è nel PATH (l'elenco dei posti dove Windows cerca i programmi). Incolla queste due righe in PowerShell, chiudi e riapri PowerShell, poi riprova claude --version. In alternativa, a mano: Impostazioni → cerca «variabili d'ambiente» → «Modifica le variabili d'ambiente relative al tuo account» → Path → Modifica → Nuovo → %USERPROFILE%\.local\bin → OK.<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>$currentPath = [Environment]::GetEnvironmentVariable('PATH', 'User')
+[Environment]::SetEnvironmentVariable('PATH', "$currentPath;$env:USERPROFILE\.local\bin", 'User')</code></pre></div></li><li><b>«'irm' is not recognized»</b> — Sei nel Prompt dei comandi, non in PowerShell. Apri PowerShell (passo «Apri PowerShell») e ripeti.</li><li><b>«The process cannot access the file … being used by another process»</b> — Un'altra installazione è ancora aperta o l'antivirus sta controllando il file. Chiudi le altre finestre di PowerShell, aspetta un minuto, poi incolla:<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\downloads"
+irm https://claude.ai/install.ps1 | iex</code></pre></div></li><li><b>«Claude Code does not support 32-bit Windows»</b> — Hai aperto «Windows PowerShell (x86)». Apri quella senza «x86» e ripeti.</li><li><b>Scrivendo claude si apre l'app Claude Desktop</b> — Hai una versione vecchia dell'app Claude Desktop: aggiornala all'ultima versione e riprova.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/troubleshoot-install" target="_blank" rel="noopener">code.claude.com/docs/en/troubleshoot-install</a></p>
+</article>
+<article class="passo" id="win-login">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-login"><span class="num">6</span><span class="tit">Primo avvio e login</span><span class="min">3 min</span></label>
+<p class="perche">Collega Claude Code al tuo abbonamento Pro.</p>
+<ol class="fai"><li>In PowerShell scrivi claude e premi Invio.</li><li>Scegli il tema (chiaro o scuro) con le frecce e Invio.</li><li>Scegli l'accesso con l'account Claude (abbonamento), non con la «Console» o le API.</li><li>Si apre il browser: entra con il tuo account e clicca «Autorizza». Torna a PowerShell.</li><li>Esci da Claude scrivendo /exit e premendo Invio.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>claude</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Dopo il login, il messaggio di benvenuto di Claude Code e la riga in cui scrivere.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Il browser non si apre</b> — In PowerShell premi il tasto c: l'indirizzo di accesso viene copiato. Incollalo nel browser e completa il login.</li><li><b>«OAuth error: Invalid code»</b> — Il codice è scaduto. Premi Invio per riprovare e completa il login subito dopo l'apertura del browser.</li><li><b>«API Error: 403» dopo il login</b> — L'abbonamento non risulta attivo: controlla su claude.ai/settings che il piano sia Pro, poi riprova.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/troubleshoot-install" target="_blank" rel="noopener">code.claude.com/docs/en/troubleshoot-install</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 4</span> La cartella di lavoro</h2><p class="obiettivo">Una cartella dedicata: Claude lavora lì dentro e non altrove.</p>
+<article class="passo" id="win-cartella">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-cartella"><span class="num">7</span><span class="tit">Crea la cartella «Claude Workspace»</span><span class="min">1 min</span></label>
+<p class="perche">Claude lavora solo dentro la cartella che gli apri. Mai la cartella utente intera o il Desktop pieno di file.</p>
+<ol class="fai"><li>Apri Esplora file → «Documenti».</li><li>Tasto destro su uno spazio vuoto → «Nuovo» → «Cartella» e chiamala Claude Workspace.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Documenti → Claude Workspace, vuota.</p>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 5</span> VS Code</h2><p class="obiettivo">Il programma da cui useremo Claude Code: file a sinistra, Claude a destra.</p>
+<article class="passo" id="win-vscode">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-vscode"><span class="num">8</span><span class="tit">Installa VS Code</span><span class="min">5 min</span></label>
+<p class="perche">È l'editor gratuito di Microsoft da cui useremo Claude Code, uguale su Mac e Windows.</p>
+<ol class="fai"><li>Vai su code.visualstudio.com e scarica la versione per Windows (la «User Installer», quella proposta di default: non chiede permessi di amministratore).</li><li>Aprila e installa lasciando le opzioni predefinite. L'installazione aggiunge da sola il comando code al PATH.</li><li>Apri VS Code.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> VS Code aperto, con la schermata «Welcome». In una PowerShell nuova, code --version risponde con un numero di versione.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«code» non è riconosciuto in PowerShell</b> — Chiudi e riapri PowerShell. Se non basta, riavvia il PC.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.visualstudio.com/docs/setup/windows" target="_blank" rel="noopener">code.visualstudio.com/docs/setup/windows</a></p>
+</article>
+<article class="passo" id="win-estensione">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-estensione"><span class="num">9</span><span class="tit">Installa l'estensione Claude Code</span><span class="min">2 min</span></label>
+<p class="perche">Mette Claude dentro VS Code, in un pannello a destra.</p>
+<ol class="fai"><li>In VS Code premi Ctrl + Shift + X (Estensioni).</li><li>Cerca Claude Code e controlla che l'editore sia <strong>Anthropic</strong> (con il bollino blu di verifica).</li><li>Clicca «Install».</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Nella barra a sinistra compare l'icona a scintilla di Claude; in basso a destra la scritta «✻ Claude Code».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>L'icona non compare dopo l'installazione</b> — Premi Ctrl + Shift + P, scrivi Developer: Reload Window e premi Invio.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+<article class="passo" id="win-prova">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-prova"><span class="num">10</span><span class="tit">Apri la cartella e fai la prima prova</span><span class="min">5 min</span></label>
+<p class="perche">È la prova che tutto funziona: Claude crea un file vero nella tua cartella.</p>
+<ol class="fai"><li>In VS Code: menu File → «Open Folder…» → Documenti → Claude Workspace → «Seleziona cartella».</li><li>Alla domanda «Do you trust the authors of the files in this folder?» rispondi «Yes, I trust the authors»: è la tua cartella.</li><li>Clicca «✻ Claude Code» in basso a destra (o l'icona a scintilla). La prima volta clicca «Sign in» e completa il login nel browser.</li><li>Scrivi a Claude: Che modello sei?</li><li>Poi: Crea un file di testo con le cose che puoi fare per me. Quando chiede il permesso di creare il file, accetta.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Nell'elenco dei file a sinistra compare il file di testo creato da Claude.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«Not logged in · Please run /login»</b> — Premi Ctrl + Shift + P → Developer: Reload Window: la schermata di accesso si riapre.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 6</span> Il gestore dei programmi</h2><p class="obiettivo">Il negozio di programmi da riga di comando da cui Claude prende quello che gli serve.</p>
+<article class="passo" id="win-chocolatey">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-chocolatey"><span class="num">11</span><span class="tit">Installa Chocolatey</span><span class="min">5 min</span></label>
+<p class="perche">Chocolatey è per Windows quello che Homebrew è per Mac: installa con un comando i programmi che servono alle skill (Pandoc, ffmpeg…). Poi è Claude a proportelo.</p>
+<ol class="fai"><li>Premi il tasto Windows, scrivi PowerShell, tasto destro su «Windows PowerShell» → <strong>«Esegui come amministratore»</strong> → Sì.</li><li>Incolla il comando (è una riga sola, lunga: copiala tutta con il pulsante «Copia») e premi Invio. Il comando consente l'esecuzione dello script solo per questa finestra.</li><li>Aspetta che finisca, poi chiudi PowerShell, riaprila e scrivi choco --version.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> choco --version risponde con un numero di versione.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Errori su «Access denied» o permessi</b> — Non hai aperto PowerShell come amministratore: chiudila e riaprila con «Esegui come amministratore».</li><li><b>Errore «running scripts is disabled» o «not digitally signed»</b> — Non hai copiato la riga intera: la parte iniziale Set-ExecutionPolicy … serve proprio a questo. Ricopiala con il pulsante «Copia».</li><li><b>«choco» non è riconosciuto</b> — Chiudi e riapri PowerShell. Se non basta, riavvia il PC.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://chocolatey.org/install" target="_blank" rel="noopener">chocolatey.org/install</a></p>
+</article>
+<article class="passo" id="win-pandoc">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-pandoc"><span class="num">12</span><span class="tit">Prova: fai installare Pandoc a Claude</span><span class="min">5 min</span></label>
+<p class="perche">È il modo in cui lavorerai davvero: dici a Claude cosa ti serve e lui ti dice cosa installare.</p>
+<ol class="fai"><li>In VS Code, nel pannello di Claude, scrivi: Sono su Windows e ho installato Chocolatey. Installa Pandoc e trasforma il file di testo che hai creato in un documento Word.</li><li>Chocolatey vuole i permessi di amministratore: Claude ti chiederà di incollare tu il comando in una PowerShell aperta come amministratore. Fallo, poi torna da Claude e digli che hai finito.</li><li>Chiudi e riapri VS Code se Claude non trova pandoc subito dopo l'installazione.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>choco install pandoc -y</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Nella cartella compare un file .docx che si apre con Word.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude dice che pandoc non esiste dopo l'installazione</b> — Chiudi e riapri VS Code (prende il PATH all'avvio), poi ripeti la richiesta.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://chocolatey.org/install" target="_blank" rel="noopener">chocolatey.org/install</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 7</span> GitHub</h2><p class="obiettivo">Il posto online dove si salvano le versioni e si pubblicano i tool.</p>
+<article class="passo" id="win-github-account">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-github-account"><span class="num">13</span><span class="tit">Crea l'account GitHub</span><span class="min">5 min</span></label>
+<p class="perche">Su GitHub si salvano le versioni del lavoro e si pubblicano i tool come pagine web. Il piano gratuito basta.</p>
+<ol class="fai"><li>Vai su github.com e clicca «Sign up».</li><li>Usa la tua email, scegli una password e un nome utente (ti suggerisco nome e cognome, senza spazi).</li><li>Conferma l'email con il codice che ti arriva.</li></ol>
+<p class="vedi"><b>Cosa devi vedere</b> Sei dentro github.com con il tuo nome utente in alto a destra.</p>
+<p class="fonte">Fonte: <a href="https://cli.github.com/" target="_blank" rel="noopener">cli.github.com/</a></p>
+</article>
+<article class="passo" id="win-gh">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-gh"><span class="num">14</span><span class="tit">Collega il PC a GitHub</span><span class="min">5 min</span></label>
+<p class="perche">Con GitHub CLI Claude può salvare e pubblicare il lavoro senza che tu debba scrivere password.</p>
+<ol class="fai"><li>In una PowerShell aperta come amministratore incolla choco install gh -y e premi Invio.</li><li>Chiudi e riapri PowerShell (normale, non serve più amministratore). Scrivi gh auth login e rispondi così: GitHub.com → HTTPS → Yes (authenticate Git) → Login with a web browser.</li><li>PowerShell mostra un codice di 8 caratteri: copialo, premi Invio, incollalo nella pagina che si apre e clicca «Authorize».</li><li>Controlla con gh auth status.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>choco install gh -y
+gh auth login</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> gh auth status risponde «Logged in to github.com account …».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Il browser non si apre</b> — Apri a mano github.com/login/device e incolla il codice.</li><li><b>Chocolatey non trova il pacchetto gh</b> — Usa winget, già presente in Windows, in una PowerShell normale:<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>winget install --id GitHub.cli</code></pre></div></li></ul></details>
+<p class="fonte">Fonte: <a href="https://cli.github.com/" target="_blank" rel="noopener">cli.github.com/</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 8</span> Il workspace MAK</h2><p class="obiettivo">La cartella di partenza con il CLAUDE.md da agente MAK e tre skill d'esempio.</p>
+<article class="passo" id="win-workspace">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-workspace"><span class="num">15</span><span class="tit">Scarica e prepara il workspace MAK</span><span class="min">15 min</span></label>
+<p class="perche">Così non parti da una cartella vuota: Claude sa già che sei un agente MAK e ha tre skill pronte.</p>
+<ol class="fai"><li>Scarica lo zip con il pulsante qui sotto: finisce in Download.</li><li>In VS Code, nel pannello di Claude, scrivi: Nella cartella Download c'è claude-workspace-mak.zip. Scompattalo qui nella cartella di lavoro, mantenendo le sottocartelle.</li><li>Apri una nuova conversazione con Claude (le skill si caricano all'inizio di ogni conversazione).</li><li>Scrivi: Leggi CLAUDE.md e fammi l'intervista per completare le parti tra [[ ]]. Rispondi alle domande.</li></ol>
+<p class="noprint"><a class="bottone" href="claude-workspace-mak.zip" download>Scarica claude-workspace-mak.zip</a></p><p class="solostampa">Lo zip si scarica dalla web app (indirizzo in fondo).</p>
+<p class="vedi"><b>Cosa devi vedere</b> A sinistra ci sono CLAUDE.md e le cartelle Clienti, Listini, Campagne, Tool. Scrivendo / nella chat compaiono messaggio-settimanale, riassunto-visita e nuovo-tool.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude non riesce a leggere la cartella Download</b> — In Esplora file, tasto destro sullo zip → «Estrai tutto…». Apri la cartella estratta, seleziona tutto il contenuto (Ctrl + A, compresa la cartella .claude) e trascinalo in Documenti → Claude Workspace.</li><li><b>Le skill non compaiono</b> — Controlla che dentro Claude Workspace ci sia la cartella .claude\skills, poi apri una nuova conversazione.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 9</span> Verifica finale</h2><p class="obiettivo">Claude controlla da solo che sia tutto a posto: lo screenshot si porta all'incontro.</p>
+<article class="passo" id="win-verifica">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win-verifica"><span class="num">16</span><span class="tit">Fai controllare tutto a Claude</span><span class="min">5 min</span></label>
+<p class="perche">Una sola tabella che dice cosa è a posto e cosa no: è quella che si guarda all'incontro.</p>
+<ol class="fai"><li>In VS Code, nel pannello di Claude, incolla il messaggio di verifica (pulsante «Copia» qui sotto).</li><li>Quando Claude chiede il permesso di eseguire i comandi di controllo, accetta.</li><li>Fai uno screenshot della tabella: tasto Windows + Shift + S e trascina sulla zona. Portalo all'incontro.</li></ol>
+<div class="cmd"><div class="cmd-testa"><span>Messaggio da incollare in Claude</span><button type="button" class="copia noprint">Copia</button></div><pre><code>Controlla che il mio computer sia pronto per il corso di Claude Code. Esegui tu i comandi che servono, senza installare né modificare nulla. Alla fine mostrami solo una tabella con tre colonne (Cosa, Versione o stato, OK?) per: Claude Code, Git, VS Code (se il comando code non risponde, controlla se l'app è installata: su Mac in /Applications, su Windows nella cartella Programs di AppData\Local), Homebrew se sono su Mac oppure Chocolatey se sono su Windows, Pandoc, GitHub CLI e login a GitHub, il file CLAUDE.md di questa cartella (OK solo se non contiene più parti tra [[ ]]), le skill messaggio-settimanale, riassunto-visita e nuovo-tool nella cartella .claude/skills. Sotto la tabella, per ogni riga che non è OK, scrivi in una frase cosa devo fare.</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Una tabella con tutte le righe OK. Se qualche riga non lo è, Claude spiega cosa fare.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Una riga resta non OK dopo aver seguito il consiglio di Claude</b> — Va bene lo stesso: porta lo screenshot all'incontro e la sistemiamo insieme, oppure scrivi a Stefano.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a></p>
+</article>
+</section>
+  </div>
+
+  <footer>
+    <p>Comandi verificati sulla documentazione ufficiale il <strong>21 ottobre 2026</strong>. Claude Code cambia spesso: se qualcosa a schermo è diverso da quanto scritto, scrivi a Stefano.</p>
+    <p class="noprint">Versione da stampare: <a href="pdf/guida-mac.pdf" download>PDF Mac</a> · <a href="pdf/guida-windows.pdf" download>PDF Windows</a></p>
+    <p class="solostampa">Web app con i pulsanti «Copia» e lo zip del workspace: stefanoserafin.github.io/mak-installazione-claude-code/</p>
+    <p class="noprint"><button type="button" class="azzera" id="azzera">Togli tutte le spunte</button></p>
+  </footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var CHIAVE = 'mak-installazione-claude-code-v1';
+  var param = new URLSearchParams(location.search);
+  var stampa = param.get('stampa') === '1';
+
+  function leggi(k, def) { try { var v = localStorage.getItem(k); return v === null ? def : v; } catch (e) { return def; } }
+  function scrivi(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  var spunte = {};
+  try { spunte = JSON.parse(leggi(CHIAVE, '{}')) || {}; } catch (e) { spunte = {}; }
+
+  // sistema: parametro ?os, poi scelta salvata, poi riconoscimento automatico
+  var rilevato = /Windows/i.test(navigator.userAgent) ? 'windows' : 'mac';
+  var os = param.get('os') || leggi(CHIAVE + '-os', rilevato);
+  if (os !== 'mac' && os !== 'windows') os = 'mac';
+
+  function aggiornaConta() {
+    var guida = document.getElementById('guida-' + os);
+    var tutte = guida.querySelectorAll('.spunta');
+    var fatte = 0;
+    for (var i = 0; i < tutte.length; i++) if (tutte[i].checked) fatte++;
+    document.getElementById('conta').textContent = fatte + ' / ' + tutte.length;
+    document.getElementById('barra').style.width = (tutte.length ? 100 * fatte / tutte.length : 0) + '%';
+  }
+
+  function scegli(nuovo) {
+    os = nuovo;
+    document.body.className = 'os-' + os;
+    document.getElementById('os-' + os).checked = true;
+    document.querySelector('.solostampa-os').textContent = os === 'mac' ? '· Mac' : '· Windows';
+    aggiornaConta();
+  }
+
+  var radio = document.querySelectorAll('input[name="os"]');
+  for (var r = 0; r < radio.length; r++) {
+    radio[r].addEventListener('change', function () { if (this.checked) { scrivi(CHIAVE + '-os', this.value); scegli(this.value); } });
+  }
+
+  // spunte salvate
+  var caselle = document.querySelectorAll('.spunta');
+  for (var c = 0; c < caselle.length; c++) {
+    var box = caselle[c];
+    if (!stampa && spunte[box.getAttribute('data-id')]) { box.checked = true; box.closest('.passo').classList.add('fatto'); }
+    box.addEventListener('change', function () {
+      var id = this.getAttribute('data-id');
+      if (this.checked) spunte[id] = true; else delete spunte[id];
+      this.closest('.passo').classList.toggle('fatto', this.checked);
+      scrivi(CHIAVE, JSON.stringify(spunte));
+      aggiornaConta();
+    });
+  }
+
+  document.getElementById('azzera').addEventListener('click', function () {
+    if (!confirm('Togliere tutte le spunte?')) return;
+    spunte = {};
+    scrivi(CHIAVE, '{}');
+    for (var i = 0; i < caselle.length; i++) { caselle[i].checked = false; caselle[i].closest('.passo').classList.remove('fatto'); }
+    aggiornaConta();
+  });
+
+  // pulsanti Copia
+  function copiaTesto(t, fatto) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(t).then(fatto, function () { vecchioModo(t); fatto(); });
+    } else { vecchioModo(t); fatto(); }
+  }
+  function vecchioModo(t) {
+    var a = document.createElement('textarea');
+    a.value = t; a.setAttribute('readonly', ''); a.style.position = 'fixed'; a.style.top = '-1000px';
+    document.body.appendChild(a); a.select(); a.setSelectionRange(0, t.length);
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(a);
+  }
+  var bottoni = document.querySelectorAll('.copia');
+  for (var b = 0; b < bottoni.length; b++) {
+    bottoni[b].addEventListener('click', function () {
+      var btn = this;
+      var t = btn.closest('.cmd').querySelector('code').textContent;
+      copiaTesto(t, function () {
+        btn.textContent = 'Copiato'; btn.classList.add('ok');
+        setTimeout(function () { btn.textContent = 'Copia'; btn.classList.remove('ok'); }, 1600);
+      });
+    });
+  }
+
+  // stampa: tutte le sezioni «Se non va» aperte
+  function apriTutto() { var d = document.querySelectorAll('details'); for (var i = 0; i < d.length; i++) d[i].open = true; }
+  window.addEventListener('beforeprint', apriTutto);
+  if (stampa) apriTutto();
+
+  scegli(os);
+
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  }
+});
+</script>
+</body>
+</html>

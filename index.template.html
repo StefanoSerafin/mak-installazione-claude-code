@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f4f3ef">
+<title>Installare Claude Code</title>
+<style>
+  :root{
+    --bg:#f4f3ef; --panel:#ffffff; --panel-2:#f0eee8;
+    --ink:#1a1c20; --ink-soft:#5b5e64; --hair:#d9d7cc;
+    --accent:#d8322c; --accent-ink:#ffffff;
+    --ok:#1c7c3c; --ok-bg:#e4f2e6;
+    --amber:#8a5d00; --amber-bg:#fbf1d9;
+    --code-bg:#1e2128; --code-ink:#ecece7;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Roboto Mono",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#16181d; --panel:#1e2128; --panel-2:#23262e;
+      --ink:#ecece7; --ink-soft:#9a9da4; --hair:#31343d;
+      --accent:#e5433d; --accent-ink:#ffffff;
+      --ok:#5fd07f; --ok-bg:#16281b;
+      --amber:#f5b301; --amber-bg:#2b2410;
+      --code-bg:#0f1115; --code-ink:#ecece7;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#16181d; --panel:#1e2128; --panel-2:#23262e;
+    --ink:#ecece7; --ink-soft:#9a9da4; --hair:#31343d;
+    --accent:#e5433d; --accent-ink:#ffffff;
+    --ok:#5fd07f; --ok-bg:#16281b;
+    --amber:#f5b301; --amber-bg:#2b2410;
+    --code-bg:#0f1115; --code-ink:#ecece7;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px 64px}
+
+  header{padding:28px 0 8px}
+  .marchio{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px}
+  h1{font-size:30px;line-height:1.15;margin:0 0 8px}
+  .sotto{margin:0 0 6px;color:var(--ink-soft)}
+  .scadenza{margin:8px 0 0}
+
+  /* scelta del sistema: radio + label */
+  .sistemi{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--hair);margin-bottom:8px}
+  .scelta{display:flex;gap:8px}
+  .scelta input{position:absolute;opacity:0;pointer-events:none}
+  .scelta label{flex:1;text-align:center;padding:12px 8px;border:2px solid var(--hair);border-radius:10px;background:var(--panel);font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .scelta input:checked + label{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+  .scelta input:focus-visible + label{outline:3px solid var(--accent);outline-offset:2px}
+  .avanz{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:14px;color:var(--ink-soft)}
+  .barra{flex:1;height:8px;background:var(--panel-2);border-radius:4px;overflow:hidden}
+  .barra i{display:block;height:100%;width:0;background:var(--ok);transition:width .25s}
+
+  .guida{display:none}
+  body.os-mac #guida-mac, body.os-windows #guida-windows{display:block}
+  .avviso{background:var(--amber-bg);color:var(--ink);border-left:4px solid var(--amber);padding:12px 14px;border-radius:6px;margin:16px 0}
+  .intro{color:var(--ink-soft);margin:16px 0 0}
+
+  .fase h2{font-size:22px;margin:36px 0 2px}
+  .fase h2 span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .obiettivo{margin:0 0 12px;color:var(--ink-soft)}
+
+  .passo{background:var(--panel);border:1px solid var(--hair);border-radius:12px;padding:14px 16px;margin:12px 0}
+  .passo-testa{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .spunta{width:24px;height:24px;flex:none;accent-color:var(--ok);margin:0}
+  .num{flex:none;width:26px;height:26px;border-radius:50%;background:var(--panel-2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .tit{flex:1;font-weight:700;font-size:17px;line-height:1.3}
+  .min{flex:none;font-size:13px;color:var(--ink-soft)}
+  .passo.fatto{background:var(--ok-bg);border-color:transparent}
+  .passo.fatto .tit{text-decoration:line-through;text-decoration-color:var(--ok)}
+  .perche{margin:8px 0 6px;color:var(--ink-soft);font-size:15px}
+  .fai{margin:6px 0 10px;padding-left:22px}
+  .fai li{margin:4px 0}
+  .vedi{margin:10px 0 4px;padding:10px 12px;background:var(--ok-bg);border-radius:8px;font-size:15px}
+  .vedi b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ok)}
+  .nonva{margin:8px 0 0}
+  .nonva summary{cursor:pointer;font-weight:600;color:var(--accent);padding:6px 0}
+  .nonva ul{margin:4px 0 0;padding-left:18px}
+  .nonva li{margin:8px 0}
+  .fonte{margin:8px 0 0;font-size:12px;color:var(--ink-soft);word-break:break-all}
+
+  .cmd{margin:10px 0;border-radius:8px;overflow:hidden;background:var(--code-bg);color:var(--code-ink)}
+  .cmd-testa{display:flex;justify-content:space-between;align-items:center;padding:6px 8px 6px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#9a9da4}
+  .cmd pre{margin:0;padding:4px 12px 12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+  .cmd code{font-family:var(--mono);font-size:14px;line-height:1.45}
+  .copia{border:0;border-radius:6px;padding:8px 14px;background:#ecece7;color:#1a1c20;font-weight:700;font-size:14px;cursor:pointer;min-height:36px}
+  .copia.ok{background:#5fd07f}
+  .bottone{display:inline-block;padding:12px 16px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none}
+
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--hair);font-size:14px;color:var(--ink-soft)}
+  footer p{margin:6px 0}
+  .azzera{border:1px solid var(--hair);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer}
+  .solostampa{display:none}
+
+  @media print{
+    @page{size:A4;margin:14mm 12mm}
+    body{background:#fff;color:#000;font-size:11pt}
+    :root{--panel:#fff;--panel-2:#eee;--ink:#000;--ink-soft:#444;--hair:#bbb;--ok-bg:#fff;--ok:#000;--amber-bg:#fff;--code-bg:#f2f2f2;--code-ink:#000}
+    .noprint,.sistemi,.azzera{display:none!important}
+    .solostampa{display:block}
+    .guida{display:none!important}
+    body.os-mac #guida-mac, body.os-windows #guida-windows{display:block!important}
+    .wrap{max-width:none;padding:0}
+    .passo{break-inside:avoid;border-color:#999;padding:10px 12px}
+    .passo.fatto{background:#fff}.passo.fatto .tit{text-decoration:none}
+    .spunta{appearance:none;-webkit-appearance:none;border:1.5px solid #000;border-radius:3px;width:16px;height:16px}
+    .vedi{border:1px solid #999}
+    .cmd{border:1px solid #999}
+    .cmd-testa{color:#444}
+    .fase h2{break-after:avoid}
+    .fonte a{text-decoration:none}
+  }
+</style>
+</head>
+<body class="os-mac">
+<div class="wrap">
+  <header>
+    <p class="marchio">Corso Claude Code · agenti MAK</p>
+    <h1><!--TITOLO--> <span class="solostampa-os"></span></h1>
+    <p class="sotto"><!--SOTTOTITOLO--></p>
+    <!--SCADENZA-->
+  </header>
+
+  <div class="sistemi noprint">
+    <div class="scelta" role="radiogroup" aria-label="Sistema operativo">
+      <input type="radio" name="os" id="os-mac" value="mac" checked><label for="os-mac">Mac</label>
+      <input type="radio" name="os" id="os-windows" value="windows"><label for="os-windows">Windows</label>
+    </div>
+    <div class="avanz"><div class="barra"><i id="barra"></i></div><span id="conta">0 / 0</span></div>
+  </div>
+
+  <div class="guida" id="guida-mac">
+    <p class="intro"><strong>Guida per Mac.</strong> Circa <!--MINUTI_MAC--> minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
+    <!--GUIDA_MAC-->
+  </div>
+
+  <div class="guida" id="guida-windows">
+    <div class="avviso"><strong>Guida Windows non ancora provata su un PC.</strong> È scritta sulla documentazione ufficiale, ma nessuno l'ha ancora seguita dall'inizio alla fine. Se un passaggio non va come descritto, <!--CONTATTO--> con uno screenshot: la correggiamo per tutti.</div>
+    <p class="intro"><strong>Guida per Windows.</strong> Circa <!--MINUTI_WIN--> minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
+    <!--GUIDA_WIN-->
+  </div>
+
+  <footer>
+    <p>Comandi verificati sulla documentazione ufficiale il <strong><!--VERIFICATO--></strong>. Claude Code cambia spesso: se qualcosa a schermo è diverso da quanto scritto, <!--CONTATTO-->.</p>
+    <p class="noprint">Versione da stampare: <a href="pdf/guida-mac.pdf" download>PDF Mac</a> · <a href="pdf/guida-windows.pdf" download>PDF Windows</a></p>
+    <p class="solostampa">Web app con i pulsanti «Copia» e lo zip del workspace: stefanoserafin.github.io/mak-installazione-claude-code/</p>
+    <p class="noprint"><button type="button" class="azzera" id="azzera">Togli tutte le spunte</button></p>
+  </footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var CHIAVE = 'mak-installazione-claude-code-v1';
+  var param = new URLSearchParams(location.search);
+  var stampa = param.get('stampa') === '1';
+
+  function leggi(k, def) { try { var v = localStorage.getItem(k); return v === null ? def : v; } catch (e) { return def; } }
+  function scrivi(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  var spunte = {};
+  try { spunte = JSON.parse(leggi(CHIAVE, '{}')) || {}; } catch (e) { spunte = {}; }
+
+  // sistema: parametro ?os, poi scelta salvata, poi riconoscimento automatico
+  var rilevato = /Windows/i.test(navigator.userAgent) ? 'windows' : 'mac';
+  var os = param.get('os') || leggi(CHIAVE + '-os', rilevato);
+  if (os !== 'mac' && os !== 'windows') os = 'mac';
+
+  function aggiornaConta() {
+    var guida = document.getElementById('guida-' + os);
+    var tutte = guida.querySelectorAll('.spunta');
+    var fatte = 0;
+    for (var i = 0; i < tutte.length; i++) if (tutte[i].checked) fatte++;
+    document.getElementById('conta').textContent = fatte + ' / ' + tutte.length;
+    document.getElementById('barra').style.width = (tutte.length ? 100 * fatte / tutte.length : 0) + '%';
+  }
+
+  function scegli(nuovo) {
+    os = nuovo;
+    document.body.className = 'os-' + os;
+    document.getElementById('os-' + os).checked = true;
+    document.querySelector('.solostampa-os').textContent = os === 'mac' ? '· Mac' : '· Windows';
+    aggiornaConta();
+  }
+
+  var radio = document.querySelectorAll('input[name="os"]');
+  for (var r = 0; r < radio.length; r++) {
+    radio[r].addEventListener('change', function () { if (this.checked) { scrivi(CHIAVE + '-os', this.value); scegli(this.value); } });
+  }
+
+  // spunte salvate
+  var caselle = document.querySelectorAll('.spunta');
+  for (var c = 0; c < caselle.length; c++) {
+    var box = caselle[c];
+    if (!stampa && spunte[box.getAttribute('data-id')]) { box.checked = true; box.closest('.passo').classList.add('fatto'); }
+    box.addEventListener('change', function () {
+      var id = this.getAttribute('data-id');
+      if (this.checked) spunte[id] = true; else delete spunte[id];
+      this.closest('.passo').classList.toggle('fatto', this.checked);
+      scrivi(CHIAVE, JSON.stringify(spunte));
+      aggiornaConta();
+    });
+  }
+
+  document.getElementById('azzera').addEventListener('click', function () {
+    if (!confirm('Togliere tutte le spunte?')) return;
+    spunte = {};
+    scrivi(CHIAVE, '{}');
+    for (var i = 0; i < caselle.length; i++) { caselle[i].checked = false; caselle[i].closest('.passo').classList.remove('fatto'); }
+    aggiornaConta();
+  });
+
+  // pulsanti Copia
+  function copiaTesto(t, fatto) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(t).then(fatto, function () { vecchioModo(t); fatto(); });
+    } else { vecchioModo(t); fatto(); }
+  }
+  function vecchioModo(t) {
+    var a = document.createElement('textarea');
+    a.value = t; a.setAttribute('readonly', ''); a.style.position = 'fixed'; a.style.top = '-1000px';
+    document.body.appendChild(a); a.select(); a.setSelectionRange(0, t.length);
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(a);
+  }
+  var bottoni = document.querySelectorAll('.copia');
+  for (var b = 0; b < bottoni.length; b++) {
+    bottoni[b].addEventListener('click', function () {
+      var btn = this;
+      var t = btn.closest('.cmd').querySelector('code').textContent;
+      copiaTesto(t, function () {
+        btn.textContent = 'Copiato'; btn.classList.add('ok');
+        setTimeout(function () { btn.textContent = 'Copia'; btn.classList.remove('ok'); }, 1600);
+      });
+    });
+  }
+
+  // stampa: tutte le sezioni «Se non va» aperte
+  function apriTutto() { var d = document.querySelectorAll('details'); for (var i = 0; i < d.length; i++) d[i].open = true; }
+  window.addEventListener('beforeprint', apriTutto);
+  if (stampa) apriTutto();
+
+  scegli(os);
+
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  }
+});
+</script>
+</body>
+</html>
