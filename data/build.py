@@ -9,6 +9,9 @@ import sys
 import zipfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import figure  # noqa: E402
+
 BASE = Path(__file__).resolve().parent.parent
 DATI = json.loads((BASE / "data" / "passi.json").read_text(encoding="utf-8"))
 OBBLIGATORI = ("id", "fase", "titolo", "perche", "fai", "vedi", "se_non_va", "minuti", "fonte")
@@ -26,6 +29,9 @@ def controlla():
                     errori.append(f"{so}/{p.get('id', '?')}: manca «{campo}»")
             if p.get("fase") not in fasi:
                 errori.append(f"{so}/{p.get('id')}: fase sconosciuta «{p.get('fase')}»")
+            for nome in p.get("figure", []):
+                if nome not in figure.FIGURE:
+                    errori.append(f"{so}/{p.get('id')}: disegno sconosciuto «{nome}»")
             if p.get("fonte") not in DATI["fonti"]:
                 errori.append(f"{so}/{p.get('id')}: fonte sconosciuta «{p.get('fonte')}»")
             if p.get("id") in visti:
@@ -36,8 +42,21 @@ def controlla():
 
 
 def testo(s):
-    """Escape HTML e **grassetto**."""
-    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", html.escape(s, quote=False))
+    """Escape HTML, **grassetto** e `testo da scrivere` (mostrato tra virgolette, che non si copiano)."""
+    s = html.escape(s, quote=False)
+    s = re.sub(r"`([^`]+)`", lambda m: f'<code class="scrivi{" corto" if len(m.group(1)) <= 28 else ""}">{m.group(1)}</code>', s)
+    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+
+
+def figure_html(p, so):
+    out = []
+    for nome in p.get("figure", []):
+        disegno, didascalia = figure.FIGURE[nome](so)
+        voci = "".join(f"<li>{testo(d)}</li>" for d in didascalia)
+        out.append(f'<figure class="figura">{disegno}<figcaption><ol class="legenda">{voci}</ol>'
+                   f'<p class="nota-disegno">Disegno schematico: colori e posizioni possono essere un po\' diversi sul tuo schermo.</p>'
+                   f'</figcaption></figure>')
+    return "".join(out)
 
 
 def blocco_comando(cmd, etichetta="Comando"):
@@ -46,13 +65,14 @@ def blocco_comando(cmd, etichetta="Comando"):
             f'<pre><code>{html.escape(cmd, quote=False)}</code></pre></div>')
 
 
-def passo_html(p, n):
+def passo_html(p, n, so):
     out = [f'<article class="passo" id="{p["id"]}">',
            f'<label class="passo-testa"><input type="checkbox" class="spunta" data-id="{p["id"]}">'
            f'<span class="num">{n}</span><span class="tit">{testo(p["titolo"])}</span>'
            f'<span class="min">{p["minuti"]} min</span></label>',
            f'<p class="perche">{testo(p["perche"])}</p>',
-           '<ol class="fai">' + "".join(f"<li>{testo(f)}</li>" for f in p["fai"]) + "</ol>"]
+           '<ol class="fai">' + "".join(f"<li>{testo(f)}</li>" for f in p["fai"]) + "</ol>",
+           figure_html(p, so)]
     if p.get("comando"):
         out.append(blocco_comando(p["comando"]))
     if p.get("zip"):
@@ -85,7 +105,7 @@ def guida_html(so):
                      f'<p class="obiettivo">{testo(f["obiettivo"])}</p>')
         for p in passi:
             n += 1
-            parti.append(passo_html(p, n))
+            parti.append(passo_html(p, n, so))
         parti.append("</section>")
     return "\n".join(parti)
 

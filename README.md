@@ -12,6 +12,7 @@ Un solo file di dati, `data/passi.json`, genera tutto il resto: web app, slide, 
 |---|---|
 | `data/passi.json` | **Unica fonte.** Fasi, passaggi Mac e Windows, verifica finale, fonti ufficiali, data di verifica, scadenza |
 | `data/build.py` | Controlla il JSON e genera `index.html`, `slides.html`, `claude-workspace-mak.zip` |
+| `data/figure.py` | I disegni schematici di VS Code (SVG inline, versione Mac e Windows) con i punti da cliccare numerati: `panoramica`, `estensioni`, `apri-cartella`, `fiducia`, `tavolozza-code`, `tavolozza-icone`, `login` |
 | `index.template.html` | Modello della web app (stile e codice inline, nessuna dipendenza esterna) |
 | `index.html` | Web app **generata**: schede Mac e Windows, spunte salvate nel browser, pulsanti «Copia». Non modificare a mano |
 | `slides.template.html` / `slides.html` | Slide per l'incontro di verifica (frecce per scorrere, F per lo schermo intero). `slides.html` è generato |
@@ -29,13 +30,19 @@ python3 data/build.py
 
 `build.py` si ferma con l'elenco degli errori se un passaggio non ha tutti i campi (`id`, `fase`, `titolo`, `perche`, `fai`, `vedi`, `se_non_va`, `minuti`, `fonte`) o se cita una fase o una fonte che non esiste.
 
-Campi facoltativi di un passaggio: `comando` (con il pulsante «Copia»), `zip: true` (pulsante di download del workspace), `prompt_verifica: true` (il messaggio di verifica da incollare in Claude). Ogni caso di `se_non_va` può avere un suo `comando`.
+Nel testo, quello che il collega deve scrivere va tra apici inversi (\`così\`): nella pagina compare tra virgolette rosse, che non vengono copiate. Campi facoltativi di un passaggio: `figure` (elenco di disegni di `figure.py`), `comando` (con il pulsante «Copia»), `zip: true` (pulsante di download del workspace), `prompt_verifica: true` (il messaggio di verifica da incollare in Claude). Ogni caso di `se_non_va` può avere un suo `comando`.
 
 ## Aggiornare
 
 - **Prima di ogni nuovo gruppo di colleghi** ricontrollare i comandi sulle pagine elencate in `fonti` di `passi.json` e aggiornare `verificato` (compare in fondo alla guida e nelle slide). Claude Code cambia spesso.
 - **Data dell'incontro**: `scadenza` in formato `AAAA-MM-GG`. Se è `null`, la web app non mostra la frase e il PDF stampa «Da finire entro il ____» da compilare a penna.
 - **Correzioni dai colleghi Windows**: vanno nel JSON (nuovi casi in `se_non_va`), poi si rigenera e si ripubblica. Quando un collega avrà completato la guida Windows da cima a fondo, togliere l'avviso «non ancora provata» da `index.template.html`.
+
+## Cosa installa la guida
+
+- **Account**: tutti con lo stesso indirizzo Gmail («Continua con Google» dove c'è), con verifica in due passaggi.
+- **VS Code**: estensione Claude Code (Anthropic) più le tre consigliate nel corso: `tomoki1207.pdf` (vscode-pdf), `pomdtr.excalidraw-editor` (Excalidraw), `vscode-icons-team.vscode-icons` (vscode-icons), installate con `code --install-extension`.
+- **Programmi** (consigliati nel corso, Modulo 6): Pandoc, FFmpeg, whisper.cpp, Node.js e il motore PDF. Su Mac `brew install pandoc ffmpeg whisper-cpp node` e `brew install --cask basictex`; su Windows `choco install pandoc ffmpeg whisper-cpp miktex nodejs-lts -y`. Nomi verificati il 2026-10-21 su formulae.brew.sh, community.chocolatey.org e Visual Studio Marketplace.
 
 ## Verifiche fatte
 
@@ -49,7 +56,7 @@ Campi facoltativi di un passaggio: `comando` (con il pulsante «Copia»), `zip: 
 
 - Per installare Claude Code su Windows **non serve** PowerShell da amministratore: serve solo per Chocolatey.
 - Git per Windows è **consigliato**, non obbligatorio: senza, Claude Code usa PowerShell al posto di Git Bash.
-- La prova del gestore dei programmi converte il file in **Word** (Pandoc da solo) invece che in PDF, per non dover installare anche BasicTeX o MiKTeX (diverse centinaia di MB).
+- I disegni di VS Code sono schematici (SVG), non screenshot: valgono per Mac e Windows e non mostrano dati personali.
 
 ## Cosa non c'è, di proposito
 

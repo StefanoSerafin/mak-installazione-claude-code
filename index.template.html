@@ -98,6 +98,15 @@
   footer p{margin:6px 0}
   .azzera{border:1px solid var(--hair);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer}
   .solostampa{display:none}
+  code.scrivi{font-family:var(--mono);font-size:.92em;background:var(--panel-2);border:1px solid var(--hair);border-radius:4px;padding:1px 4px;white-space:normal;word-break:break-word}
+  code.scrivi.corto{white-space:nowrap}
+  code.scrivi::before,code.scrivi::after{content:'"';color:var(--accent);font-weight:700}
+  .figura{margin:12px 0;padding:0}
+  .figura-svg{display:block;width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+  .legenda{margin:8px 0 0;padding-left:0;list-style:none;counter-reset:n;font-size:14px}
+  .legenda li{counter-increment:n;position:relative;padding-left:30px;margin:6px 0}
+  .legenda li::before{content:counter(n);position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:#e5433d;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+  .nota-disegno{margin:4px 0 0;font-size:12px;color:var(--ink-soft)}
 
   @media print{
     @page{size:A4;margin:14mm 12mm}
@@ -115,6 +124,9 @@
     .cmd{border:1px solid #999}
     .cmd-testa{color:#444}
     .fase h2{break-after:avoid}
+    .figura{break-inside:avoid}
+    .legenda li::before{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .figura-svg{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:none;max-width:150mm}
     .fonte a{text-decoration:none}
   }
 </style>
@@ -137,13 +149,13 @@
   </div>
 
   <div class="guida" id="guida-mac">
-    <p class="intro"><strong>Guida per Mac.</strong> Circa <!--MINUTI_MAC--> minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
+    <p class="intro"><strong>Guida per Mac.</strong> Quello che devi scrivere è tra virgolette rosse, <code class="scrivi">così</code>: scrivi solo il testo, senza le virgolette. I comandi lunghi sono nei riquadri scuri, con il pulsante «Copia». Circa <!--MINUTI_MAC--> minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
     <!--GUIDA_MAC-->
   </div>
 
   <div class="guida" id="guida-windows">
     <div class="avviso"><strong>Guida Windows non ancora provata su un PC.</strong> È scritta sulla documentazione ufficiale, ma nessuno l'ha ancora seguita dall'inizio alla fine. Se un passaggio non va come descritto, <!--CONTATTO--> con uno screenshot: la correggiamo per tutti.</div>
-    <p class="intro"><strong>Guida per Windows.</strong> Circa <!--MINUTI_WIN--> minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
+    <p class="intro"><strong>Guida per Windows.</strong> Quello che devi scrivere è tra virgolette rosse, <code class="scrivi">così</code>: scrivi solo il testo, senza le virgolette. I comandi lunghi sono nei riquadri scuri, con il pulsante «Copia». Circa <!--MINUTI_WIN--> minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
     <!--GUIDA_WIN-->
   </div>
 
