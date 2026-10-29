@@ -1,6 +1,6 @@
 // Service worker: la guida resta consultabile anche senza rete dopo la prima apertura.
 // Prima la rete (così si vede sempre l'ultima versione), copia salvata se la rete manca o tarda oltre 3,5 secondi.
-const CACHE = 'mak-installazione-claude-code-v1';
+const CACHE = 'mak-installazione-claude-code-v2';
 const FILE = ['./', 'index.html'];
 
 self.addEventListener('install', function (e) {

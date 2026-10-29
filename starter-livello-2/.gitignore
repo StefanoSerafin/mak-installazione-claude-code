@@ -1,0 +1,30 @@
+# Workspace MAK — cosa NON va su GitHub (livello 2)
+
+# Copie dei siti: si tengono solo gli script e il README della cartella.
+# Il sito agenti (Siti/EBOOK) è materiale riservato: non deve mai uscire da questo computer.
+Siti/*
+!Siti/_script/
+!Siti/README.md
+
+# Clienti: dati personali, restano sul computer
+Clienti/*
+!Clienti/README.md
+Second Brain/wiki/Clienti/
+
+# Obsidian: lo stato delle finestre cambia di continuo
+Second Brain/.obsidian/workspace*.json
+
+# Ambiente Python
+.venv/
+__pycache__/
+
+# Documenti e media pesanti (listini e cataloghi compresi)
+*.pdf
+*.xlsx
+*.xls
+*.docx
+*.pptx
+*.zip
+*.mp4
+*.mov
+.DS_Store

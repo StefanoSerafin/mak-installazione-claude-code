@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Genera index.html (web app), slides.html (slide per l'incontro) e lo zip del workspace
-a partire da data/passi.json. Uso: python3 data/build.py"""
+"""Genera index.html (web app), slides.html (slide per l'incontro) e i due zip del workspace
+(livello 1: starter/, livello 2: starter-livello-2/) a partire da data/passi.json.
+Uso: python3 data/build.py"""
 
 import html
 import json
@@ -21,6 +22,9 @@ SISTEMI = {"mac": "Mac", "windows": "Windows"}
 def controlla():
     errori = []
     fasi = {f["id"] for f in DATI["fasi"]}
+    for f in DATI["fasi"]:
+        if f.get("livello") not in (1, 2):
+            errori.append(f"fase {f['id']}: «livello» deve essere 1 o 2")
     for so in SISTEMI:
         visti = set()
         for p in DATI[so]:
@@ -34,6 +38,8 @@ def controlla():
                     errori.append(f"{so}/{p.get('id')}: disegno sconosciuto «{nome}»")
             if p.get("fonte") not in DATI["fonti"]:
                 errori.append(f"{so}/{p.get('id')}: fonte sconosciuta «{p.get('fonte')}»")
+            if p.get("zip") not in (None, False, True, 1, 2) or p.get("prompt_verifica") not in (None, False, True, 1, 2):
+                errori.append(f"{so}/{p.get('id')}: «zip» e «prompt_verifica» valgono 1 o 2")
             if p.get("id") in visti:
                 errori.append(f"{so}/{p.get('id')}: id ripetuto")
             visti.add(p.get("id"))
@@ -76,10 +82,12 @@ def passo_html(p, n, so):
     if p.get("comando"):
         out.append(blocco_comando(p["comando"]))
     if p.get("zip"):
-        out.append(f'<p class="noprint"><a class="bottone" href="{DATI["zip"]}" download>Scarica {DATI["zip"]}</a></p>'
+        nome = DATI["zip_2"] if p["zip"] == 2 else DATI["zip"]
+        out.append(f'<p class="noprint"><a class="bottone" href="{nome}" download>Scarica {nome}</a></p>'
                    f'<p class="solostampa">Lo zip si scarica dalla web app (indirizzo in fondo).</p>')
     if p.get("prompt_verifica"):
-        out.append(blocco_comando(DATI["verifica_prompt"], "Messaggio da incollare in Claude"))
+        prompt = DATI["verifica_prompt_2"] if p["prompt_verifica"] == 2 else DATI["verifica_prompt"]
+        out.append(blocco_comando(prompt, "Messaggio da incollare in Claude"))
     out.append(f'<p class="vedi"><b>Cosa devi vedere</b> {testo(p["vedi"])}</p>')
     if p["se_non_va"]:
         casi = []
@@ -95,9 +103,20 @@ def passo_html(p, n, so):
     return "\n".join(out)
 
 
-def guida_html(so):
+def fasi_livello(livello):
+    """Fasi del livello con il loro numero: il livello 1 parte da 0 («Prima di cominciare»), il 2 da 1."""
+    fasi = [f for f in DATI["fasi"] if f["livello"] == livello]
+    return list(enumerate(fasi, 0 if livello == 1 else 1))
+
+
+def passi_livello(so, livello):
+    ids = {f["id"] for f in DATI["fasi"] if f["livello"] == livello}
+    return [p for p in DATI[so] if p["fase"] in ids]
+
+
+def guida_html(so, livello):
     parti, n = [], 0
-    for i, f in enumerate(DATI["fasi"]):
+    for i, f in fasi_livello(livello):
         passi = [p for p in DATI[so] if p["fase"] == f["id"]]
         if not passi:
             continue
@@ -110,7 +129,7 @@ def guida_html(so):
     return "\n".join(parti)
 
 
-def slide_fase(i, f):
+def slide_fase(i, f, totale):
     colonne = []
     for so, nome in SISTEMI.items():
         passi = [p for p in DATI[so] if p["fase"] == f["id"]]
@@ -128,7 +147,7 @@ def slide_fase(i, f):
         colonne.append(f'<div class="col"><h3>{nome}</h3><ul class="passi">{"".join(righe)}</ul>'
                        + (f'<p class="lab">Errori tipici</p><ul class="err">{err}</ul>' if err else "")
                        + "</div>")
-    return (f'<section class="slide"><p class="kicker">Fase {i} di {len(DATI["fasi"]) - 1}</p>'
+    return (f'<section class="slide"><p class="kicker">Fase {i} di {totale}</p>'
             f'<h2>{testo(f["titolo"])}</h2><p class="ob">{testo(f["obiettivo"])}</p>'
             f'<div class="due">{"".join(colonne)}</div></section>')
 
@@ -142,9 +161,10 @@ def slides_html():
          '<li>Mostra lo screenshot della tabella di verifica (o rifalla adesso).</li>'
          '<li>Tutte le righe OK: aiuta il vicino. Qualche riga no: la sistemiamo con la guida, fase per fase.</li>'
          '</ol></section>']
-    for i, f in enumerate(DATI["fasi"]):
+    fasi1 = fasi_livello(1)
+    for i, f in fasi1:
         if f["id"] != "verifica":
-            s.append(slide_fase(i, f))
+            s.append(slide_fase(i, f, len(fasi1) - 1))
     s.append('<section class="slide"><h2>La verifica</h2><p class="ob">Si incolla nel pannello di Claude, in VS Code:</p>'
              f'<blockquote>{testo(DATI["verifica_prompt"])}</blockquote></section>')
     s.append('<section class="slide"><h2>Dove ci si blocca di solito</h2><div class="due">'
@@ -163,6 +183,21 @@ def slides_html():
              '<li>Le skill: le cose che fai ogni settimana diventano un comando.</li>'
              '<li>Primo tool: da un tuo Excel a una pagina da consultare dal telefono.</li>'
              '</ul></section>')
+    # livello 2
+    s.append(f'<section class="slide copertina"><p class="kicker">Livello 2</p><h1>I siti e il tuo second brain</h1>'
+             f'<p class="sotto">{testo(DATI["sottotitolo_2"])}</p></section>')
+    s.append('<section class="slide"><h2>Come funziona</h2><ol class="grande">'
+             '<li><strong>Siti/</strong>: Claude copia e legge i siti NPK, MATE, MAK, TRK e il sito agenti.</li>'
+             '<li><strong>Second Brain/</strong>: con quelle copie scrive il tuo wiki, un marchio alla volta (metodo di Karpathy).</li>'
+             '<li><strong>Obsidian</strong>: il wiki si sfoglia come un sito; a Claude si fanno domande e risponde citando le pagine.</li>'
+             '<li>Un lavoro lungo per conversazione, poi <code>/clear</code>: Claude resta preciso e il piano Pro basta.</li>'
+             '</ol></section>')
+    fasi2 = fasi_livello(2)
+    for i, f in fasi2:
+        if f["id"] != "l2-obsidian":
+            s.append(slide_fase(i, f, len(fasi2)))
+    s.append('<section class="slide"><h2>La verifica del livello 2</h2><p class="ob">Si incolla nel pannello di Claude, in VS Code:</p>'
+             f'<blockquote>{testo(DATI["verifica_prompt_2"])}</blockquote></section>')
     return "\n".join(s)
 
 
@@ -170,17 +205,21 @@ MESI = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", 
         "settembre", "ottobre", "novembre", "dicembre"]
 
 
+def ore(minuti):
+    h = round(minuti / 60)
+    return f"{h} ore" if h != 1 else "un'ora"
+
+
 def data_it(iso):
     a, m, g = iso.split("-")
     return f"{int(g)} {MESI[int(m) - 1]} {a}"
 
 
-def crea_zip():
-    sorgente = BASE / "starter" / "Claude Workspace"
-    dest = BASE / DATI["zip"]
+def crea_zip(sorgente, nome):
+    dest = BASE / nome
     with zipfile.ZipFile(dest, "w", zipfile.ZIP_DEFLATED) as z:
         for f in sorted(sorgente.rglob("*")):
-            if f.is_file() and f.name != ".DS_Store":
+            if f.is_file() and f.name != ".DS_Store" and "__pycache__" not in f.parts:
                 z.write(f, f.relative_to(sorgente).as_posix())
     return dest
 
@@ -198,11 +237,20 @@ def main():
         "<!--SCADENZA-->": riga_scad,
         "<!--VERIFICATO-->": data_it(DATI["verificato"]),
         "<!--CONTATTO-->": testo(DATI["contatto"]),
-        "<!--MINUTI_MAC-->": str(sum(p["minuti"] for p in DATI["mac"])),
-        "<!--MINUTI_WIN-->": str(sum(p["minuti"] for p in DATI["windows"])),
-        "<!--GUIDA_MAC-->": guida_html("mac"),
-        "<!--GUIDA_WIN-->": guida_html("windows"),
+        "<!--TITOLO_2-->": testo(DATI["titolo_2"]),
+        "<!--SOTTOTITOLO_2-->": testo(DATI["sottotitolo_2"]),
+        "<!--MINUTI_MAC-->": str(sum(p["minuti"] for p in passi_livello("mac", 1))),
+        "<!--MINUTI_WIN-->": str(sum(p["minuti"] for p in passi_livello("windows", 1))),
+        "<!--ORE2_MAC-->": ore(sum(p["minuti"] for p in passi_livello("mac", 2))),
+        "<!--ORE2_WIN-->": ore(sum(p["minuti"] for p in passi_livello("windows", 2))),
+        "<!--GUIDA_MAC-->": guida_html("mac", 1),
+        "<!--GUIDA_WIN-->": guida_html("windows", 1),
+        "<!--GUIDA2_MAC-->": guida_html("mac", 2),
+        "<!--GUIDA2_WIN-->": guida_html("windows", 2),
     }
+    resti = [k for k in sost if k not in (BASE / "index.template.html").read_text(encoding="utf-8")]
+    if resti:
+        sys.exit("Segnaposto mancanti in index.template.html: " + ", ".join(resti))
     pagina = (BASE / "index.template.html").read_text(encoding="utf-8")
     for k, v in sost.items():
         pagina = pagina.replace(k, v)
@@ -211,11 +259,15 @@ def main():
     slide = (BASE / "slides.template.html").read_text(encoding="utf-8").replace("<!--SLIDES-->", slides_html())
     (BASE / "slides.html").write_text(slide, encoding="utf-8")
 
-    z = crea_zip()
-    print(f"index.html: {len(DATI['mac'])} passaggi Mac, {len(DATI['windows'])} Windows")
+    zip1 = crea_zip(BASE / "starter" / "Claude Workspace", DATI["zip"])
+    zip2 = crea_zip(BASE / "starter-livello-2", DATI["zip_2"])
+    for liv in (1, 2):
+        print(f"index.html livello {liv}: {len(passi_livello('mac', liv))} passaggi Mac, "
+              f"{len(passi_livello('windows', liv))} Windows")
     n_slide = slide.count('<section class="slide')
     print(f"slides.html: {n_slide} slide")
-    print(f"{z.name}: {len(zipfile.ZipFile(z).namelist())} file")
+    for z in (zip1, zip2):
+        print(f"{z.name}: {len(zipfile.ZipFile(z).namelist())} file")
 
 
 if __name__ == "__main__":

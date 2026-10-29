@@ -58,14 +58,19 @@
   .barra{flex:1;height:8px;background:var(--panel-2);border-radius:4px;overflow:hidden}
   .barra i{display:block;height:100%;width:0;background:var(--ok);transition:width .25s}
 
-  .guida{display:none}
-  body.os-mac #guida-mac, body.os-windows #guida-windows{display:block}
+  .guida,.testa-2{display:none}
+  body.liv-1.os-mac #guida-1-mac, body.liv-1.os-windows #guida-1-windows,
+  body.liv-2.os-mac #guida-2-mac, body.liv-2.os-windows #guida-2-windows{display:block}
+  body.liv-2 .testa-1{display:none} body.liv-2 .testa-2{display:block}
+  .scelta.livelli{margin-bottom:8px}
+  .scelta.livelli label{font-size:15px;padding:10px 6px}
+  .scelta.livelli label small{display:block;font-weight:400;font-size:12px;opacity:.8}
   .avviso{background:var(--amber-bg);color:var(--ink);border-left:4px solid var(--amber);padding:12px 14px;border-radius:6px;margin:16px 0}
   .intro{color:var(--ink-soft);margin:16px 0 0}
 
   .fase h2{font-size:22px;margin:36px 0 2px}
   .fase h2 span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
-  .obiettivo{margin:0 0 12px;color:var(--ink-soft)}
+  .obiettivo{margin:0 0 12px;color:var(--ink-soft);break-after:avoid}
 
   .passo{background:var(--panel);border:1px solid var(--hair);border-radius:12px;padding:14px 16px;margin:12px 0}
   .passo-testa{display:flex;align-items:center;gap:10px;cursor:pointer}
@@ -115,7 +120,8 @@
     .noprint,.sistemi,.azzera{display:none!important}
     .solostampa{display:block}
     .guida{display:none!important}
-    body.os-mac #guida-mac, body.os-windows #guida-windows{display:block!important}
+    body.liv-1.os-mac #guida-1-mac, body.liv-1.os-windows #guida-1-windows,
+    body.liv-2.os-mac #guida-2-mac, body.liv-2.os-windows #guida-2-windows{display:block!important}
     .wrap{max-width:none;padding:0}
     .passo{break-inside:avoid;border-color:#999;padding:10px 12px}
     .passo.fatto{background:#fff}.passo.fatto .tit{text-decoration:none}
@@ -131,16 +137,26 @@
   }
 </style>
 </head>
-<body class="os-mac">
+<body class="liv-1 os-mac">
 <div class="wrap">
   <header>
     <p class="marchio">Corso Claude Code · agenti MAK</p>
-    <h1>Installare Claude Code <span class="solostampa-os"></span></h1>
-    <p class="sotto">La lista da seguire a casa, prima dell'incontro, per arrivare con il computer pronto.</p>
-    <p class="scadenza solostampa">Da finire entro il ____________________</p>
+    <div class="testa-1">
+      <h1>Installare Claude Code <span class="solostampa-os"></span></h1>
+      <p class="sotto">La lista da seguire a casa, prima dell'incontro, per arrivare con il computer pronto.</p>
+      <p class="scadenza solostampa">Da finire entro il ____________________</p>
+    </div>
+    <div class="testa-2">
+      <h1>Livello 2 · I siti e il tuo second brain <span class="solostampa-os"></span></h1>
+      <p class="sotto">Dopo l'installazione: Claude copia e legge i siti MAK, e con quel materiale costruisce il tuo wiki personale da consultare in Obsidian. Si fa in più giorni, una fase alla volta.</p>
+    </div>
   </header>
 
   <div class="sistemi noprint">
+    <div class="scelta livelli" role="radiogroup" aria-label="Livello">
+      <input type="radio" name="liv" id="liv-1" value="1" checked><label for="liv-1">Livello 1<small>Installazione</small></label>
+      <input type="radio" name="liv" id="liv-2" value="2"><label for="liv-2">Livello 2<small>Siti e wiki</small></label>
+    </div>
     <div class="scelta" role="radiogroup" aria-label="Sistema operativo">
       <input type="radio" name="os" id="os-mac" value="mac" checked><label for="os-mac">Mac</label>
       <input type="radio" name="os" id="os-windows" value="windows"><label for="os-windows">Windows</label>
@@ -148,7 +164,7 @@
     <div class="avanz"><div class="barra"><i id="barra"></i></div><span id="conta">0 / 0</span></div>
   </div>
 
-  <div class="guida" id="guida-mac">
+  <div class="guida" id="guida-1-mac">
     <p class="intro"><strong>Guida per Mac.</strong> Quello che devi scrivere è tra virgolette rosse, <code class="scrivi">così</code>: scrivi solo il testo, senza le virgolette. I comandi lunghi sono nei riquadri scuri, con il pulsante «Copia». Circa 119 minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, scrivi a Stefano con uno screenshot.</p>
     <section class="fase"><h2><span>Fase 0</span> Prima di cominciare</h2><p class="obiettivo">Un indirizzo Gmail, l'abbonamento attivo e un computer adatto, prima di installare qualsiasi cosa.</p>
 <article class="passo" id="mac-requisiti">
@@ -363,7 +379,7 @@ gh auth login</code></pre></div>
 </section>
   </div>
 
-  <div class="guida" id="guida-windows">
+  <div class="guida" id="guida-1-windows">
     <div class="avviso"><strong>Guida Windows non ancora provata su un PC.</strong> È scritta sulla documentazione ufficiale, ma nessuno l'ha ancora seguita dall'inizio alla fine. Se un passaggio non va come descritto, scrivi a Stefano con uno screenshot: la correggiamo per tutti.</div>
     <p class="intro"><strong>Guida per Windows.</strong> Quello che devi scrivere è tra virgolette rosse, <code class="scrivi">così</code>: scrivi solo il testo, senza le virgolette. I comandi lunghi sono nei riquadri scuri, con il pulsante «Copia». Circa 112 minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, scrivi a Stefano con uno screenshot.</p>
     <section class="fase"><h2><span>Fase 0</span> Prima di cominciare</h2><p class="obiettivo">Un indirizzo Gmail, l'abbonamento attivo e un computer adatto, prima di installare qualsiasi cosa.</p>
@@ -569,9 +585,372 @@ gh auth login</code></pre></div>
 </section>
   </div>
 
+  <div class="guida" id="guida-2-mac">
+    <div class="avviso"><strong>Prima finisci il livello 1.</strong> Il livello 2 parte dal workspace del livello 1 già pronto (CLAUDE.md completato, Homebrew, Pandoc, VS Code con Claude). Provato da capo a fondo su un Mac il 29 ottobre 2026.</div>
+    <p class="intro"><strong>Livello 2 per Mac.</strong> Qui scrivi soprattutto a Claude: i messaggi da mandargli sono tra virgolette rosse, <code class="scrivi">così</code>. Claude lancia gli script e ti chiede il permesso: accetta. In tutto circa 9 ore di lavoro di Claude, quasi tutto mentre fai altro: <strong>non farlo in una volta sola</strong>. Una fase al giorno va benissimo; i siti e i lotti del wiki si fanno uno per conversazione. Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, scrivi a Stefano con uno screenshot.</p>
+    <section class="fase"><h2><span>Fase 1</span> Prepara il workspace</h2><p class="obiettivo">I programmi che servono a leggere i siti e i PDF, Obsidian, e lo zip con le skill e lo scheletro del wiki.</p>
+<article class="passo" id="mac2-programmi">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-programmi"><span class="num">1</span><span class="tit">Installa poppler, Python e Obsidian</span><span class="min">10 min</span></label>
+<p class="perche"><strong>poppler</strong> legge i PDF (anche come immagini, per le locandine). <strong>Python</strong> fa girare gli script che copiano i siti. <strong>Obsidian</strong> è il programma con cui sfogli il wiki: pagine collegate, ricerca e grafo.</p>
+<ol class="fai"><li>Apri il Terminale (⌘ + spazio, scrivi <code class="scrivi corto">Terminale</code>, Invio).</li><li>Incolla la prima riga del riquadro e premi Invio, poi la seconda.</li><li>Chiudi e riapri il Terminale. Controlla con <code class="scrivi corto">pdftotext -v</code> e <code class="scrivi corto">python3 --version</code>.</li></ol>
+
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>brew install poppler python
+brew install --cask obsidian</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> <code class="scrivi corto">pdftotext -v</code> risponde «pdftotext version …», <code class="scrivi corto">python3 --version</code> risponde «Python 3.…» e tra le Applicazioni c'è Obsidian.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«already installed»</b> — C'era già: va bene così.</li><li><b>«command not found: brew»</b> — Homebrew non è nel PATH: rifai il passaggio «Installa Homebrew» del livello 1, i due comandi dei «Next steps».</li></ul></details>
+<p class="fonte">Fonte: <a href="https://formulae.brew.sh/" target="_blank" rel="noopener">formulae.brew.sh/</a></p>
+</article>
+<article class="passo" id="mac2-zip">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-zip"><span class="num">2</span><span class="tit">Aggiungi il livello 2 al workspace</span><span class="min">5 min</span></label>
+<p class="perche">Lo zip porta due skill nuove (estrai-sito e wiki), gli script già provati sui siti MAK e lo scheletro del wiki. Si aggiunge a quello che hai: il tuo CLAUDE.md non viene toccato.</p>
+<ol class="fai"><li>Scarica lo zip con il pulsante qui sotto: finisce in Download.</li><li>In VS Code, nel pannello di Claude, scrivi <code class="scrivi">Nella cartella Download c'è livello-2.zip. Aprilo, leggi LEGGIMI-LIVELLO-2.md e segui le sue istruzioni: non sovrascrivere nessun file che ho già.</code></li><li>Quando Claude ha finito, apri una conversazione nuova: le skill nuove si caricano all'inizio della conversazione.</li></ol>
+
+<p class="noprint"><a class="bottone" href="livello-2.zip" download>Scarica livello-2.zip</a></p><p class="solostampa">Lo zip si scarica dalla web app (indirizzo in fondo).</p>
+<p class="vedi"><b>Cosa devi vedere</b> A sinistra compaiono le cartelle <code class="scrivi corto">Siti</code> e <code class="scrivi corto">Second Brain</code>; scrivendo <code class="scrivi corto">/</code> nella chat compaiono anche estrai-sito e wiki.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude dice che un file c'era già e non l'ha sovrascritto</b> — È giusto così. Se è un file del livello 2 che vuoi aggiornare, chiedi <code class="scrivi">Confronta il mio … con quello dello zip e dimmi le differenze</code>.</li><li><b>Le skill nuove non compaiono</b> — Controlla che esistano <code class="scrivi corto">.claude/skills/estrai-sito</code> e <code class="scrivi corto">.claude/skills/wiki</code>, poi apri una conversazione nuova.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="mac2-venv">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-venv"><span class="num">3</span><span class="tit">Crea l'ambiente Python del workspace</span><span class="min">5 min</span></label>
+<p class="perche">Gli script dei siti usano alcune librerie (per leggere PDF ed Excel e per collegarsi a Chrome). Stanno in una cartella <code class="scrivi corto">.venv</code> dentro il workspace, separate dal resto del computer.</p>
+<ol class="fai"><li>In VS Code apri il terminale interno: menu <strong>Terminal → New Terminal</strong> (si apre in basso, già nella cartella Claude Workspace).</li><li>Incolla il comando del riquadro e premi Invio: ci vuole un minuto.</li><li>Controlla con <code class="scrivi">.venv/bin/python -c "import playwright, pymupdf, openpyxl; print('ok')"</code>.</li></ol>
+
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>python3 -m venv .venv &amp;&amp; .venv/bin/pip install playwright pymupdf openpyxl xlrd pdfplumber</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Il controllo risponde <code class="scrivi corto">ok</code> e a sinistra compare la cartella <code class="scrivi corto">.venv</code> (non va aperta né toccata).</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«No module named venv» o «python3: command not found»</b> — Python non è installato o il terminale non lo vede ancora: chiudi e riapri VS Code; se non basta, rifai il passaggio precedente.</li><li><b>Il terminale si apre in un'altra cartella</b> — In VS Code apri prima la cartella Claude Workspace (File → Open Folder…), poi di nuovo Terminal → New Terminal.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://docs.python.org/3/library/venv.html" target="_blank" rel="noopener">docs.python.org/3/library/venv.html</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 2</span> Il workspace funzionale</h2><p class="obiettivo">Claude sa cosa c'è nel workspace e ha già letto i listini e i cataloghi che hai tu.</p>
+<article class="passo" id="mac2-claudemd">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-claudemd"><span class="num">4</span><span class="tit">Aggiorna il tuo CLAUDE.md</span><span class="min">10 min</span></label>
+<p class="perche">Il CLAUDE.md è quello che Claude sa di te a ogni conversazione: ora deve sapere anche dei siti e del wiki, e quali regole valgono per il materiale riservato.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi <code class="scrivi">Rileggi il mio CLAUDE.md: controlla che ci sia la sezione «Livello 2» e che non siano rimaste parti tra [[ ]]. Poi fammi le domande che servono per completare quello che manca su di me, sulla mia zona e sui miei clienti, e aggiornalo.</code></li><li>Rispondi alle domande. Più è preciso il CLAUDE.md, meno dovrai ripeterti.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Il CLAUDE.md ha la sezione «Livello 2: siti e second brain» e nessuna parte tra [[ ]].</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Manca la sezione «Livello 2»</b> — Scrivi <code class="scrivi">Aggiungi al mio CLAUDE.md la sezione «Da aggiungere a CLAUDE.md» del LEGGIMI del livello 2</code> (se lo zip non c'è più, scaricalo di nuovo dal passaggio precedente).</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+<article class="passo" id="mac2-listini">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-listini"><span class="num">5</span><span class="tit">Metti nel workspace i tuoi listini e cataloghi</span><span class="min">15 min</span></label>
+<p class="perche">Il materiale che hai già (listini, cataloghi, tabelle in PDF o Excel) diventa una fonte del wiki come i siti. Claude lo legge una volta e poi lo ritrova.</p>
+<ol class="fai"><li>Trascina nella cartella <code class="scrivi corto">Listini</code> (nel Finder o direttamente nell'elenco a sinistra di VS Code) i listini e i cataloghi più recenti che hai. Niente file con dati dei clienti: quelli vanno in <code class="scrivi corto">Clienti</code>.</li><li>Scrivi a Claude <code class="scrivi">Leggi tutti i file nella cartella Listini, PDF ed Excel compresi, ed estrai il testo in Listini/testo/. Poi scrivi Listini/README.md con una riga per file: cos'è, marchio, data o anno, e se il testo è leggibile.</code></li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> <code class="scrivi corto">Listini/README.md</code> con l'elenco dei tuoi file e <code class="scrivi corto">Listini/testo/</code> con il testo estratto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Un PDF risulta «solo immagini»</b> — Scrivi <code class="scrivi">Guarda quel PDF come immagine e trascrivi le tabelle</code>: Claude lo converte in immagini e lo legge.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 3</span> I siti pubblici</h2><p class="obiettivo">Le copie di NPK, MATE, MAK e TRK in Siti/, con ogni PDF letto e un README di analisi per sito. Un sito per conversazione.</p>
+<article class="passo" id="mac2-npk">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-npk"><span class="num">6</span><span class="tit">Copia il sito NPK</span><span class="min">60 min</span></label>
+<p class="perche">Una copia in locale del sito NPK, letta per intero, è la base del wiki: Claude risponde partendo da qui invece di cercare ogni volta in rete.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Usa la skill estrai-sito per copiare il sito NPK in Siti/NPK, configuratori compresi. Prima dimmi quante pagine ci sono.</code></li><li>Claude ti dice quante pagine e quanti documenti ci sono: rispondi di andare avanti. Poi scarica, estrae il testo dei PDF, guarda quelli fatti solo di immagini e scrive il README. Quando ti chiede il permesso di eseguire un comando, accetta.</li><li>I configuratori (ruotini, kit, antifurti, calze e catene per vettura e per misura) richiedono circa mezz'ora in più: Claude li salva in tabelle CSV in <code class="scrivi corto">Siti/NPK/dati/</code>.</li><li>Alla fine leggi il resoconto: le cose utili per vendere e le contraddizioni trovate.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/NPK</code> con le pagine, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code> e un <code class="scrivi corto">README.md</code> con l'analisi. Claude dice quanti documenti ha scaricato e quanti ha letto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Lo script si ferma con «403» o «429»</b> — Il sito ci sta chiedendo di rallentare. Aspetta un'ora e scrivi <code class="scrivi">Riprendi la copia del sito da dove si era fermata</code>.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="mac2-mate">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-mate"><span class="num">7</span><span class="tit">Copia il sito MATE</span><span class="min">30 min</span></label>
+<p class="perche">Una copia in locale del sito MATE, letta per intero, è la base del wiki: Claude risponde partendo da qui invece di cercare ogni volta in rete.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Usa la skill estrai-sito per copiare il sito MATE in Siti/MATE. Prima dimmi quante pagine ci sono.</code></li><li>Claude ti dice quante pagine e quanti documenti ci sono: rispondi di andare avanti. Poi scarica, estrae il testo dei PDF, guarda quelli fatti solo di immagini e scrive il README. Quando ti chiede il permesso di eseguire un comando, accetta.</li><li>Alla fine leggi il resoconto: le cose utili per vendere e le contraddizioni trovate.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/MATE</code> con le pagine, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code> e un <code class="scrivi corto">README.md</code> con l'analisi. Claude dice quanti documenti ha scaricato e quanti ha letto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Lo script si ferma con «403» o «429»</b> — Il sito ci sta chiedendo di rallentare. Aspetta un'ora e scrivi <code class="scrivi">Riprendi la copia del sito da dove si era fermata</code>.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="mac2-mak">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-mak"><span class="num">8</span><span class="tit">Copia il sito MAK</span><span class="min">60 min</span></label>
+<p class="perche">Una copia in locale del sito MAK, letta per intero, è la base del wiki: Claude risponde partendo da qui invece di cercare ogni volta in rete.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Usa la skill estrai-sito per copiare il sito MAK in Siti/MAK. Prima dimmi quante pagine ci sono.</code></li><li>Claude ti dice quante pagine e quanti documenti ci sono: rispondi di andare avanti. Poi scarica, estrae il testo dei PDF, guarda quelli fatti solo di immagini e scrive il README. Quando ti chiede il permesso di eseguire un comando, accetta.</li><li>Il sito MAK ha più di 500 news: Claude ti chiede se le vuoi. Per il wiki bastano schede ruote e ricambi, pagine e promozioni; le news si possono aggiungere dopo.</li><li>I cataloghi sfogliabili della pagina Download (catalogo, listino al pubblico) Claude li scarica in PDF a parte, in <code class="scrivi corto">Siti/MAK/flippingbook/</code>.</li><li>Alla fine leggi il resoconto: le cose utili per vendere e le contraddizioni trovate.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/MAK</code> con le pagine, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code> e un <code class="scrivi corto">README.md</code> con l'analisi. Claude dice quanti documenti ha scaricato e quanti ha letto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Lo script si ferma con «403» o «429»</b> — Il sito ci sta chiedendo di rallentare. Aspetta un'ora e scrivi <code class="scrivi">Riprendi la copia del sito da dove si era fermata</code>.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="mac2-trk">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-trk"><span class="num">9</span><span class="tit">Copia il sito TRK</span><span class="min">20 min</span></label>
+<p class="perche">Una copia in locale del sito TRK, letta per intero, è la base del wiki: Claude risponde partendo da qui invece di cercare ogni volta in rete.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Usa la skill estrai-sito per copiare il sito TRK in Siti/TRK. Prima dimmi quante pagine ci sono.</code></li><li>Claude ti dice quante pagine e quanti documenti ci sono: rispondi di andare avanti. Poi scarica, estrae il testo dei PDF, guarda quelli fatti solo di immagini e scrive il README. Quando ti chiede il permesso di eseguire un comando, accetta.</li><li>Alla fine leggi il resoconto: le cose utili per vendere e le contraddizioni trovate.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/TRK</code> con le pagine, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code> e un <code class="scrivi corto">README.md</code> con l'analisi. Claude dice quanti documenti ha scaricato e quanti ha letto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Lo script si ferma con «403» o «429»</b> — Il sito ci sta chiedendo di rallentare. Aspetta un'ora e scrivi <code class="scrivi">Riprendi la copia del sito da dove si era fermata</code>.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 4</span> Il sito agenti</h2><p class="obiettivo">La copia del sito riservato agli agenti in Siti/EBOOK. Il login lo fai tu; il materiale resta solo sul tuo computer.</p>
+<article class="passo" id="mac2-ebook-login">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-ebook-login"><span class="num">10</span><span class="tit">Apri il sito agenti e fai il login</span><span class="min">5 min</span></label>
+<p class="perche">Il sito agenti è riservato: serve il tuo account Google. Si apre in un Chrome separato da quello di tutti i giorni, così gli script possono leggerlo senza vedere nessuna password.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Apri il Chrome del sito agenti con zsh Siti/_script/avvia_chrome_ebook.sh</code>.</li><li>Si apre una finestra di Chrome nuova, senza i tuoi segnalibri: è giusto. Fai il login con l'account Google con cui entri di solito nel sito agenti.</li><li>Se Chrome chiede di scegliere il motore di ricerca o di accedere al profilo, scegli tu: non cambia niente per la copia.</li><li>Aspetta di vedere la home del sito agenti e <strong>lascia aperta quella finestra</strong>.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Una finestra di Chrome a parte con la home del sito agenti MAK.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Dice che non hai accesso al sito</b> — Stai usando un account Google diverso da quello abilitato: esci e rientra con quello giusto. Se non sai quale, chiedi in sede.</li><li><b>Non si apre nessuna finestra</b> — Serve Google Chrome installato (google.com/chrome). Installalo e riprova.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="mac2-ebook-copia">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-ebook-copia"><span class="num">11</span><span class="tit">Copia il sito agenti</span><span class="min">60 min</span></label>
+<p class="perche">Promo push, condizioni, accordi, cataloghi riservati: tutto in locale e cercabile. Video e file molto grandi restano solo elencati, con il link.</p>
+<ol class="fai"><li>Nella stessa conversazione scrivi <code class="scrivi">Il Chrome del sito agenti è aperto e ho fatto il login. Usa la skill estrai-sito per copiarlo in Siti/EBOOK.</code></li><li>Claude copia prima le pagine, poi i file collegati (centinaia, ci vuole un po'), poi estrae il testo. Lascia aperta la finestra del sito agenti finché non ha finito.</li><li>Alla fine leggi il resoconto. <strong>Ricorda:</strong> questo materiale è riservato alla rete agenti. Resta sul tuo computer: non si pubblica, non si manda, non va su GitHub.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/EBOOK</code> con <code class="scrivi corto">pagine/</code>, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code>, <code class="scrivi corto">file.csv</code> e il <code class="scrivi corto">README.md</code> con l'analisi.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Errore «Browser context management is not supported» o «connect_over_cdp»</b> — Chiudi la finestra del sito agenti (anche dal Dock), riaprila con il passaggio precedente e scrivi <code class="scrivi">Riprendi la copia del sito agenti</code>: riparte da dove era arrivata.</li><li><b>Lo script aspetta e poi dice «Login non completato»</b> — Nella finestra del sito agenti non si è arrivati alla home: completa il login e riprova.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 5</span> Il second brain</h2><p class="obiettivo">Il tuo wiki in Second Brain/: Claude legge le copie dei siti e le trasforma in pagine collegate. Un marchio per conversazione, su più giorni.</p>
+<article class="passo" id="mac2-wiki-schema">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-wiki-schema"><span class="num">12</span><span class="tit">Conosci il tuo wiki</span><span class="min">5 min</span></label>
+<p class="perche">Il metodo è quello di Andrej Karpathy visto nel corso di Gaito: le fonti restano com'erano, Claude scrive pagine brevi e collegate, e una pagina di regole (lo schema) dice come.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi <code class="scrivi">Leggi Second Brain/CLAUDE.md e spiegami in cinque righe come funzionerà il mio wiki e cosa faremo nel primo lotto.</code></li><li>Se vuoi cambiare qualcosa (per esempio aggiungere un'area «Concorrenza»), dillo adesso: Claude aggiorna lo schema.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Claude ti spiega i tre livelli (fonti, wiki, schema), le tre operazioni (ingest, query, lint) e il piano dei lotti.</p>
+<p class="fonte">Fonte: <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+</article>
+<article class="passo" id="mac2-wiki-pilota">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-wiki-pilota"><span class="num">13</span><span class="tit">Il primo lotto: NPK</span><span class="min">30 min</span></label>
+<p class="perche">Il primo lotto è piccolo apposta: serve a decidere insieme a Claude come devono essere le pagine prima di farne centinaia.</p>
+<ol class="fai"><li>Nella stessa conversazione scrivi <code class="scrivi">Con la skill wiki fai l'ingest del lotto 1, NPK, partendo da Siti/NPK. Prima mostrami l'elenco delle pagine che vuoi scrivere.</code></li><li>Guarda l'elenco e rispondi <code class="scrivi corto">Va bene</code> o chiedi di togliere o aggiungere pagine.</li><li>Claude scrive 5–8 pagine, aggiorna indice e log e lancia il controllo (lint) fino a zero errori.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Nuove pagine in <code class="scrivi corto">Second Brain/wiki/NPK/</code> e <code class="scrivi corto">Second Brain/wiki/Fonti/</code>, e Claude che dice «0 errori».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+</article>
+<article class="passo" id="mac2-wiki-rivedi">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-wiki-rivedi"><span class="num">14</span><span class="tit">Rivedi le pagine e fissa lo stile</span><span class="min">15 min</span></label>
+<p class="perche">Le pagine del wiki devono servire a te in visita o al telefono con un cliente. Quello che decidi qui vale per tutti i lotti dopo.</p>
+<ol class="fai"><li>Apri due o tre pagine di <code class="scrivi corto">Second Brain/wiki/NPK/</code> (in VS Code basta cliccarle a sinistra).</li><li>Di' a Claude cosa cambiare, con parole tue: <code class="scrivi corto">più corte</code>, <code class="scrivi">metti sempre una tabella con le misure</code>, <code class="scrivi">aggiungi una sezione con le domande dei gommisti</code>…</li><li>Poi scrivi <code class="scrivi">Scrivi queste scelte nelle convenzioni di Second Brain/CLAUDE.md, così valgono per tutti i lotti.</code></li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Le pagine NPK sistemate e le tue scelte scritte nelle convenzioni dello schema.</p>
+<p class="fonte">Fonte: <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+</article>
+<article class="passo" id="mac2-wiki-lotti">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-wiki-lotti"><span class="num">15</span><span class="tit">Gli altri lotti: MATE, MAK, TRK, sito agenti</span><span class="min">180 min</span></label>
+<p class="perche">Un lotto per conversazione tiene Claude preciso e i consumi dentro il piano Pro. Ogni lotto richiede da mezz'ora a un'ora: meglio uno al giorno.</p>
+<ol class="fai"><li>Scrivi <code class="scrivi corto">/clear</code> (o apri una conversazione nuova).</li><li>Scrivi <code class="scrivi">Con la skill wiki fai l'ingest del prossimo lotto da fare.</code> Claude guarda la tabella «Stato dei lotti» e riparte da lì.</li><li>Guarda l'elenco delle pagine, dai il via e aspetta lo «0 errori» finale.</li><li>Ripeti per ogni lotto: 2 MATE, 3 MAK, 4 TRK, 5 sito agenti.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Nella tabella «Stato dei lotti» di <code class="scrivi corto">Second Brain/CLAUDE.md</code> tutti i lotti risultano fatti.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li><li><b>Il lint trova errori che Claude non riesce a correggere</b> — Scrivi <code class="scrivi">Spiegami gli errori del lint uno per uno</code>: di solito sono link a pagine non ancora scritte, che si possono scrivere o togliere.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/costs" target="_blank" rel="noopener">code.claude.com/docs/en/costs</a></p>
+</article>
+<article class="passo" id="mac2-wiki-domande">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-wiki-domande"><span class="num">16</span><span class="tit">Fai le prime domande al wiki</span><span class="min">10 min</span></label>
+<p class="perche">È lo scopo di tutto: risposte rapide e con la fonte, partendo dal tuo materiale invece che dalla memoria di Claude.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Prova tre domande, per esempio: <code class="scrivi">Chiedi al wiki: quali ruotini NPK ci sono per una Fiat Panda del 2020?</code>, <code class="scrivi">Chiedi al wiki: qual è la promo push di questo mese?</code>, <code class="scrivi">Chiedi al wiki: che differenza c'è tra i sensori MATE programmabili e quelli preprogrammati?</code></li><li>Controlla che ogni risposta citi le pagine del wiki da cui viene. Se una risposta ti è utile anche in futuro, di' <code class="scrivi">Salvala come pagina di analisi</code>.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Risposte con le pagine citate tra doppie parentesi quadre, per esempio [[Ruotini NPK]].</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude risponde senza citare il wiki</b> — Scrivi <code class="scrivi">Rispondi solo partendo dal wiki in Second Brain e dimmi se non basta</code>.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 6</span> Obsidian e verifica finale</h2><p class="obiettivo">Il wiki aperto in Obsidian e una tabella che dice cosa è a posto.</p>
+<article class="passo" id="mac2-obsidian">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-obsidian"><span class="num">17</span><span class="tit">Apri il wiki in Obsidian</span><span class="min">5 min</span></label>
+<p class="perche">In Obsidian le pagine si leggono come un sito: link cliccabili, ricerca veloce e il grafo che mostra come sono collegate.</p>
+<ol class="fai"><li>Apri Obsidian. Alla prima schermata scegli «Apri cartella come vault» (Open folder as vault).</li><li>Scegli Documenti → Claude Workspace → Second Brain e clicca «Apri».</li><li>Se Obsidian chiede se ti fidi dell'autore del vault, rispondi di sì: è la tua cartella.</li><li>Apri <code class="scrivi corto">index.md</code>, poi la vista grafo (l'icona con i puntini collegati a sinistra): ogni area ha il suo colore.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Il wiki in Obsidian: link cliccabili e il grafo a colori per area.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Le cartelle _script e _templates compaiono nella ricerca</b> — Impostazioni → File e link → «File esclusi»: aggiungi <code class="scrivi corto">_script</code> e <code class="scrivi corto">_templates</code>.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://obsidian.md/download" target="_blank" rel="noopener">obsidian.md/download</a></p>
+</article>
+<article class="passo" id="mac2-verifica">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="mac2-verifica"><span class="num">18</span><span class="tit">Fai controllare tutto a Claude</span><span class="min">5 min</span></label>
+<p class="perche">Una sola tabella che dice cosa è a posto e cosa no: è quella da mandare a Stefano.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Incolla il messaggio di verifica (pulsante «Copia» qui sotto). Quando Claude chiede il permesso di eseguire i comandi di controllo, accetta.</li><li>Fai uno screenshot della tabella (⌘ + ⇧ + 4) e mandalo a Stefano.</li></ol>
+
+<div class="cmd"><div class="cmd-testa"><span>Messaggio da incollare in Claude</span><button type="button" class="copia noprint">Copia</button></div><pre><code>Controlla che il livello 2 del mio workspace sia completo. Esegui tu i comandi che servono, senza installare, scaricare né modificare nulla. Alla fine mostrami solo una tabella con tre colonne (Cosa, Stato, OK?) per: le skill estrai-sito e wiki in .claude/skills; l'ambiente Python .venv con playwright, pymupdf e openpyxl; pdftotext; Obsidian installato; le copie dei siti in Siti/ (una riga per NPK, MATE, MAK, TRK ed EBOOK con il numero di pagine, di documenti scaricati e di documenti con testo estratto, e OK solo se c'è il README.md con l'analisi); il wiki in Second Brain (numero di pagine per area, e l'esito di _script/lint.py, OK solo con 0 errori); la tabella «Stato dei lotti» di Second Brain/CLAUDE.md; la sezione «Livello 2» nel CLAUDE.md del workspace; e, se questa cartella è un repository git, l'esito di git status: OK solo se non compare nessun file di Siti/, di Clienti/ o di Second Brain/wiki/Clienti, né PDF o Excel (i README.md e la cartella Siti/_script sono previsti e vanno bene). Sotto la tabella, per ogni riga che non è OK, scrivi in una frase cosa devo fare.</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Una tabella con tutte le righe OK. Se qualche riga non lo è, Claude spiega cosa fare.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Una riga resta non OK dopo aver seguito il consiglio di Claude</b> — Manda lo stesso lo screenshot a Stefano: la sistemiamo insieme.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+</section>
+  </div>
+
+  <div class="guida" id="guida-2-windows">
+    <div class="avviso"><strong>Livello 2 per Windows non ancora provato su un PC.</strong> Gli script sono gli stessi provati su Mac, ma nessuno ha ancora seguito questa versione dall'inizio alla fine. Se un passaggio non va come descritto, scrivi a Stefano con uno screenshot: la correggiamo per tutti. Prima finisci il livello 1.</div>
+    <p class="intro"><strong>Livello 2 per Windows.</strong> Qui scrivi soprattutto a Claude: i messaggi da mandargli sono tra virgolette rosse, <code class="scrivi">così</code>. Claude lancia gli script e ti chiede il permesso: accetta. In tutto circa 9 ore di lavoro di Claude, quasi tutto mentre fai altro: <strong>non farlo in una volta sola</strong>. Una fase al giorno va benissimo; i siti e i lotti del wiki si fanno uno per conversazione. Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, scrivi a Stefano con uno screenshot.</p>
+    <section class="fase"><h2><span>Fase 1</span> Prepara il workspace</h2><p class="obiettivo">I programmi che servono a leggere i siti e i PDF, Obsidian, e lo zip con le skill e lo scheletro del wiki.</p>
+<article class="passo" id="win2-programmi">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="win2-programmi"><span class="num">1</span><span class="tit">Installa poppler, Python e Obsidian</span><span class="min">10 min</span></label>
+<p class="perche"><strong>poppler</strong> legge i PDF (anche come immagini, per le locandine). <strong>Python</strong> fa girare gli script che copiano i siti. <strong>Obsidian</strong> è il programma con cui sfogli il wiki: pagine collegate, ricerca e grafo.</p>
+<ol class="fai"><li>Apri PowerShell <strong>come amministratore</strong> (tasto Windows, scrivi <code class="scrivi corto">PowerShell</code>, tasto destro → «Esegui come amministratore»).</li><li>Incolla il comando e premi Invio.</li><li>Chiudi e riapri PowerShell e VS Code. Controlla con <code class="scrivi corto">pdftotext -v</code> e <code class="scrivi corto">python --version</code>.</li></ol>
+
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>choco install poppler python obsidian -y</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Chocolatey chiude con «Chocolatey installed 3/3 packages», <code class="scrivi corto">pdftotext -v</code> e <code class="scrivi corto">python --version</code> rispondono con un numero di versione e nel menu Start c'è Obsidian.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b><code class="scrivi corto">python</code> apre il Microsoft Store invece di rispondere</b> — Impostazioni → App → Impostazioni app avanzate → «Alias di esecuzione delle app»: spegni i due interruttori «Programma di installazione app» di python.exe e python3.exe, poi riapri PowerShell.</li><li><b>Uno dei pacchetti fallisce</b> — Ripeti il comando solo per quello, per esempio <code class="scrivi corto">choco install poppler -y</code>. Se fallisce ancora, copia le ultime righe a Claude e chiedigli cosa è andato storto.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://community.chocolatey.org/packages" target="_blank" rel="noopener">community.chocolatey.org/packages</a></p>
+</article>
+<article class="passo" id="windows2-zip">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-zip"><span class="num">2</span><span class="tit">Aggiungi il livello 2 al workspace</span><span class="min">5 min</span></label>
+<p class="perche">Lo zip porta due skill nuove (estrai-sito e wiki), gli script già provati sui siti MAK e lo scheletro del wiki. Si aggiunge a quello che hai: il tuo CLAUDE.md non viene toccato.</p>
+<ol class="fai"><li>Scarica lo zip con il pulsante qui sotto: finisce in Download.</li><li>In VS Code, nel pannello di Claude, scrivi <code class="scrivi">Nella cartella Download c'è livello-2.zip. Aprilo, leggi LEGGIMI-LIVELLO-2.md e segui le sue istruzioni: non sovrascrivere nessun file che ho già.</code></li><li>Quando Claude ha finito, apri una conversazione nuova: le skill nuove si caricano all'inizio della conversazione.</li></ol>
+
+<p class="noprint"><a class="bottone" href="livello-2.zip" download>Scarica livello-2.zip</a></p><p class="solostampa">Lo zip si scarica dalla web app (indirizzo in fondo).</p>
+<p class="vedi"><b>Cosa devi vedere</b> A sinistra compaiono le cartelle <code class="scrivi corto">Siti</code> e <code class="scrivi corto">Second Brain</code>; scrivendo <code class="scrivi corto">/</code> nella chat compaiono anche estrai-sito e wiki.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude dice che un file c'era già e non l'ha sovrascritto</b> — È giusto così. Se è un file del livello 2 che vuoi aggiornare, chiedi <code class="scrivi">Confronta il mio … con quello dello zip e dimmi le differenze</code>.</li><li><b>Le skill nuove non compaiono</b> — Controlla che esistano <code class="scrivi corto">.claude/skills/estrai-sito</code> e <code class="scrivi corto">.claude/skills/wiki</code>, poi apri una conversazione nuova.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="windows2-venv">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-venv"><span class="num">3</span><span class="tit">Crea l'ambiente Python del workspace</span><span class="min">5 min</span></label>
+<p class="perche">Gli script dei siti usano alcune librerie (per leggere PDF ed Excel e per collegarsi a Chrome). Stanno in una cartella <code class="scrivi corto">.venv</code> dentro il workspace, separate dal resto del computer.</p>
+<ol class="fai"><li>In VS Code apri il terminale interno: menu <strong>Terminal → New Terminal</strong> (si apre in basso, già nella cartella Claude Workspace). Se il menu non si vede, premi Ctrl + ò.</li><li>Incolla il comando del riquadro e premi Invio: ci vuole un minuto.</li><li>Controlla con <code class="scrivi">.venv\Scripts\python -c "import playwright, pymupdf, openpyxl; print('ok')"</code>.</li></ol>
+
+<div class="cmd"><div class="cmd-testa"><span>Comando</span><button type="button" class="copia noprint">Copia</button></div><pre><code>python -m venv .venv; .venv\Scripts\pip install playwright pymupdf openpyxl xlrd pdfplumber</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Il controllo risponde <code class="scrivi corto">ok</code> e a sinistra compare la cartella <code class="scrivi corto">.venv</code> (non va aperta né toccata).</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>«python» non è riconosciuto come comando</b> — Python non è installato o il terminale non lo vede ancora: chiudi e riapri VS Code; se non basta, rifai il passaggio precedente.</li><li><b>Il terminale si apre in un'altra cartella</b> — In VS Code apri prima la cartella Claude Workspace (File → Open Folder…), poi di nuovo Terminal → New Terminal.</li><li><b>«l'esecuzione di script è disabilitata nel sistema»</b> — Il comando non ha bisogno di script: controlla di aver incollato tutto il riquadro. Se l'errore resta, copia il messaggio a Claude.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://docs.python.org/3/library/venv.html" target="_blank" rel="noopener">docs.python.org/3/library/venv.html</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 2</span> Il workspace funzionale</h2><p class="obiettivo">Claude sa cosa c'è nel workspace e ha già letto i listini e i cataloghi che hai tu.</p>
+<article class="passo" id="windows2-claudemd">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-claudemd"><span class="num">4</span><span class="tit">Aggiorna il tuo CLAUDE.md</span><span class="min">10 min</span></label>
+<p class="perche">Il CLAUDE.md è quello che Claude sa di te a ogni conversazione: ora deve sapere anche dei siti e del wiki, e quali regole valgono per il materiale riservato.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi <code class="scrivi">Rileggi il mio CLAUDE.md: controlla che ci sia la sezione «Livello 2» e che non siano rimaste parti tra [[ ]]. Poi fammi le domande che servono per completare quello che manca su di me, sulla mia zona e sui miei clienti, e aggiornalo.</code></li><li>Rispondi alle domande. Più è preciso il CLAUDE.md, meno dovrai ripeterti.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Il CLAUDE.md ha la sezione «Livello 2: siti e second brain» e nessuna parte tra [[ ]].</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Manca la sezione «Livello 2»</b> — Scrivi <code class="scrivi">Aggiungi al mio CLAUDE.md la sezione «Da aggiungere a CLAUDE.md» del LEGGIMI del livello 2</code> (se lo zip non c'è più, scaricalo di nuovo dal passaggio precedente).</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+<article class="passo" id="windows2-listini">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-listini"><span class="num">5</span><span class="tit">Metti nel workspace i tuoi listini e cataloghi</span><span class="min">15 min</span></label>
+<p class="perche">Il materiale che hai già (listini, cataloghi, tabelle in PDF o Excel) diventa una fonte del wiki come i siti. Claude lo legge una volta e poi lo ritrova.</p>
+<ol class="fai"><li>Trascina nella cartella <code class="scrivi corto">Listini</code> (in Esplora file o direttamente nell'elenco a sinistra di VS Code) i listini e i cataloghi più recenti che hai. Niente file con dati dei clienti: quelli vanno in <code class="scrivi corto">Clienti</code>.</li><li>Scrivi a Claude <code class="scrivi">Leggi tutti i file nella cartella Listini, PDF ed Excel compresi, ed estrai il testo in Listini/testo/. Poi scrivi Listini/README.md con una riga per file: cos'è, marchio, data o anno, e se il testo è leggibile.</code></li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> <code class="scrivi corto">Listini/README.md</code> con l'elenco dei tuoi file e <code class="scrivi corto">Listini/testo/</code> con il testo estratto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Un PDF risulta «solo immagini»</b> — Scrivi <code class="scrivi">Guarda quel PDF come immagine e trascrivi le tabelle</code>: Claude lo converte in immagini e lo legge.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">code.claude.com/docs/en/vs-code</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 3</span> I siti pubblici</h2><p class="obiettivo">Le copie di NPK, MATE, MAK e TRK in Siti/, con ogni PDF letto e un README di analisi per sito. Un sito per conversazione.</p>
+<article class="passo" id="windows2-npk">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-npk"><span class="num">6</span><span class="tit">Copia il sito NPK</span><span class="min">60 min</span></label>
+<p class="perche">Una copia in locale del sito NPK, letta per intero, è la base del wiki: Claude risponde partendo da qui invece di cercare ogni volta in rete.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Usa la skill estrai-sito per copiare il sito NPK in Siti/NPK, configuratori compresi. Prima dimmi quante pagine ci sono.</code></li><li>Claude ti dice quante pagine e quanti documenti ci sono: rispondi di andare avanti. Poi scarica, estrae il testo dei PDF, guarda quelli fatti solo di immagini e scrive il README. Quando ti chiede il permesso di eseguire un comando, accetta.</li><li>I configuratori (ruotini, kit, antifurti, calze e catene per vettura e per misura) richiedono circa mezz'ora in più: Claude li salva in tabelle CSV in <code class="scrivi corto">Siti/NPK/dati/</code>.</li><li>Alla fine leggi il resoconto: le cose utili per vendere e le contraddizioni trovate.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/NPK</code> con le pagine, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code> e un <code class="scrivi corto">README.md</code> con l'analisi. Claude dice quanti documenti ha scaricato e quanti ha letto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Lo script si ferma con «403» o «429»</b> — Il sito ci sta chiedendo di rallentare. Aspetta un'ora e scrivi <code class="scrivi">Riprendi la copia del sito da dove si era fermata</code>.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="windows2-mate">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-mate"><span class="num">7</span><span class="tit">Copia il sito MATE</span><span class="min">30 min</span></label>
+<p class="perche">Una copia in locale del sito MATE, letta per intero, è la base del wiki: Claude risponde partendo da qui invece di cercare ogni volta in rete.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Usa la skill estrai-sito per copiare il sito MATE in Siti/MATE. Prima dimmi quante pagine ci sono.</code></li><li>Claude ti dice quante pagine e quanti documenti ci sono: rispondi di andare avanti. Poi scarica, estrae il testo dei PDF, guarda quelli fatti solo di immagini e scrive il README. Quando ti chiede il permesso di eseguire un comando, accetta.</li><li>Alla fine leggi il resoconto: le cose utili per vendere e le contraddizioni trovate.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/MATE</code> con le pagine, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code> e un <code class="scrivi corto">README.md</code> con l'analisi. Claude dice quanti documenti ha scaricato e quanti ha letto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Lo script si ferma con «403» o «429»</b> — Il sito ci sta chiedendo di rallentare. Aspetta un'ora e scrivi <code class="scrivi">Riprendi la copia del sito da dove si era fermata</code>.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="windows2-mak">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-mak"><span class="num">8</span><span class="tit">Copia il sito MAK</span><span class="min">60 min</span></label>
+<p class="perche">Una copia in locale del sito MAK, letta per intero, è la base del wiki: Claude risponde partendo da qui invece di cercare ogni volta in rete.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Usa la skill estrai-sito per copiare il sito MAK in Siti/MAK. Prima dimmi quante pagine ci sono.</code></li><li>Claude ti dice quante pagine e quanti documenti ci sono: rispondi di andare avanti. Poi scarica, estrae il testo dei PDF, guarda quelli fatti solo di immagini e scrive il README. Quando ti chiede il permesso di eseguire un comando, accetta.</li><li>Il sito MAK ha più di 500 news: Claude ti chiede se le vuoi. Per il wiki bastano schede ruote e ricambi, pagine e promozioni; le news si possono aggiungere dopo.</li><li>I cataloghi sfogliabili della pagina Download (catalogo, listino al pubblico) Claude li scarica in PDF a parte, in <code class="scrivi corto">Siti/MAK/flippingbook/</code>.</li><li>Alla fine leggi il resoconto: le cose utili per vendere e le contraddizioni trovate.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/MAK</code> con le pagine, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code> e un <code class="scrivi corto">README.md</code> con l'analisi. Claude dice quanti documenti ha scaricato e quanti ha letto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Lo script si ferma con «403» o «429»</b> — Il sito ci sta chiedendo di rallentare. Aspetta un'ora e scrivi <code class="scrivi">Riprendi la copia del sito da dove si era fermata</code>.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="windows2-trk">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-trk"><span class="num">9</span><span class="tit">Copia il sito TRK</span><span class="min">20 min</span></label>
+<p class="perche">Una copia in locale del sito TRK, letta per intero, è la base del wiki: Claude risponde partendo da qui invece di cercare ogni volta in rete.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Usa la skill estrai-sito per copiare il sito TRK in Siti/TRK. Prima dimmi quante pagine ci sono.</code></li><li>Claude ti dice quante pagine e quanti documenti ci sono: rispondi di andare avanti. Poi scarica, estrae il testo dei PDF, guarda quelli fatti solo di immagini e scrive il README. Quando ti chiede il permesso di eseguire un comando, accetta.</li><li>Alla fine leggi il resoconto: le cose utili per vendere e le contraddizioni trovate.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/TRK</code> con le pagine, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code> e un <code class="scrivi corto">README.md</code> con l'analisi. Claude dice quanti documenti ha scaricato e quanti ha letto.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Lo script si ferma con «403» o «429»</b> — Il sito ci sta chiedendo di rallentare. Aspetta un'ora e scrivi <code class="scrivi">Riprendi la copia del sito da dove si era fermata</code>.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 4</span> Il sito agenti</h2><p class="obiettivo">La copia del sito riservato agli agenti in Siti/EBOOK. Il login lo fai tu; il materiale resta solo sul tuo computer.</p>
+<article class="passo" id="windows2-ebook-login">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-ebook-login"><span class="num">10</span><span class="tit">Apri il sito agenti e fai il login</span><span class="min">5 min</span></label>
+<p class="perche">Il sito agenti è riservato: serve il tuo account Google. Si apre in un Chrome separato da quello di tutti i giorni, così gli script possono leggerlo senza vedere nessuna password.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi a Claude <code class="scrivi">Apri il Chrome del sito agenti con powershell -ExecutionPolicy Bypass -File Siti\_script\avvia_chrome_ebook.ps1</code>.</li><li>Si apre una finestra di Chrome nuova, senza i tuoi segnalibri: è giusto. Fai il login con l'account Google con cui entri di solito nel sito agenti.</li><li>Se Chrome chiede di scegliere il motore di ricerca o di accedere al profilo, scegli tu: non cambia niente per la copia.</li><li>Aspetta di vedere la home del sito agenti e <strong>lascia aperta quella finestra</strong>.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Una finestra di Chrome a parte con la home del sito agenti MAK.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Dice che non hai accesso al sito</b> — Stai usando un account Google diverso da quello abilitato: esci e rientra con quello giusto. Se non sai quale, chiedi in sede.</li><li><b>«Non trovo Google Chrome»</b> — Serve Google Chrome installato (google.com/chrome). Installalo e riprova.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+<article class="passo" id="windows2-ebook-copia">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-ebook-copia"><span class="num">11</span><span class="tit">Copia il sito agenti</span><span class="min">60 min</span></label>
+<p class="perche">Promo push, condizioni, accordi, cataloghi riservati: tutto in locale e cercabile. Video e file molto grandi restano solo elencati, con il link.</p>
+<ol class="fai"><li>Nella stessa conversazione scrivi <code class="scrivi">Il Chrome del sito agenti è aperto e ho fatto il login. Usa la skill estrai-sito per copiarlo in Siti/EBOOK.</code></li><li>Claude copia prima le pagine, poi i file collegati (centinaia, ci vuole un po'), poi estrae il testo. Lascia aperta la finestra del sito agenti finché non ha finito.</li><li>Alla fine leggi il resoconto. <strong>Ricorda:</strong> questo materiale è riservato alla rete agenti. Resta sul tuo computer: non si pubblica, non si manda, non va su GitHub.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> La cartella <code class="scrivi corto">Siti/EBOOK</code> con <code class="scrivi corto">pagine/</code>, <code class="scrivi corto">download/</code>, <code class="scrivi corto">testo/</code>, <code class="scrivi corto">file.csv</code> e il <code class="scrivi corto">README.md</code> con l'analisi.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Errore «Browser context management is not supported» o «connect_over_cdp»</b> — Chiudi la finestra del sito agenti (anche dal Dock), riaprila con il passaggio precedente e scrivi <code class="scrivi">Riprendi la copia del sito agenti</code>: riparte da dove era arrivata.</li><li><b>Lo script aspetta e poi dice «Login non completato»</b> — Nella finestra del sito agenti non si è arrivati alla home: completa il login e riprova.</li><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 5</span> Il second brain</h2><p class="obiettivo">Il tuo wiki in Second Brain/: Claude legge le copie dei siti e le trasforma in pagine collegate. Un marchio per conversazione, su più giorni.</p>
+<article class="passo" id="windows2-wiki-schema">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-wiki-schema"><span class="num">12</span><span class="tit">Conosci il tuo wiki</span><span class="min">5 min</span></label>
+<p class="perche">Il metodo è quello di Andrej Karpathy visto nel corso di Gaito: le fonti restano com'erano, Claude scrive pagine brevi e collegate, e una pagina di regole (lo schema) dice come.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Scrivi <code class="scrivi">Leggi Second Brain/CLAUDE.md e spiegami in cinque righe come funzionerà il mio wiki e cosa faremo nel primo lotto.</code></li><li>Se vuoi cambiare qualcosa (per esempio aggiungere un'area «Concorrenza»), dillo adesso: Claude aggiorna lo schema.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Claude ti spiega i tre livelli (fonti, wiki, schema), le tre operazioni (ingest, query, lint) e il piano dei lotti.</p>
+<p class="fonte">Fonte: <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+</article>
+<article class="passo" id="windows2-wiki-pilota">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-wiki-pilota"><span class="num">13</span><span class="tit">Il primo lotto: NPK</span><span class="min">30 min</span></label>
+<p class="perche">Il primo lotto è piccolo apposta: serve a decidere insieme a Claude come devono essere le pagine prima di farne centinaia.</p>
+<ol class="fai"><li>Nella stessa conversazione scrivi <code class="scrivi">Con la skill wiki fai l'ingest del lotto 1, NPK, partendo da Siti/NPK. Prima mostrami l'elenco delle pagine che vuoi scrivere.</code></li><li>Guarda l'elenco e rispondi <code class="scrivi corto">Va bene</code> o chiedi di togliere o aggiungere pagine.</li><li>Claude scrive 5–8 pagine, aggiorna indice e log e lancia il controllo (lint) fino a zero errori.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Nuove pagine in <code class="scrivi corto">Second Brain/wiki/NPK/</code> e <code class="scrivi corto">Second Brain/wiki/Fonti/</code>, e Claude che dice «0 errori».</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+</article>
+<article class="passo" id="windows2-wiki-rivedi">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-wiki-rivedi"><span class="num">14</span><span class="tit">Rivedi le pagine e fissa lo stile</span><span class="min">15 min</span></label>
+<p class="perche">Le pagine del wiki devono servire a te in visita o al telefono con un cliente. Quello che decidi qui vale per tutti i lotti dopo.</p>
+<ol class="fai"><li>Apri due o tre pagine di <code class="scrivi corto">Second Brain/wiki/NPK/</code> (in VS Code basta cliccarle a sinistra).</li><li>Di' a Claude cosa cambiare, con parole tue: <code class="scrivi corto">più corte</code>, <code class="scrivi">metti sempre una tabella con le misure</code>, <code class="scrivi">aggiungi una sezione con le domande dei gommisti</code>…</li><li>Poi scrivi <code class="scrivi">Scrivi queste scelte nelle convenzioni di Second Brain/CLAUDE.md, così valgono per tutti i lotti.</code></li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Le pagine NPK sistemate e le tue scelte scritte nelle convenzioni dello schema.</p>
+<p class="fonte">Fonte: <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+</article>
+<article class="passo" id="windows2-wiki-lotti">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-wiki-lotti"><span class="num">15</span><span class="tit">Gli altri lotti: MATE, MAK, TRK, sito agenti</span><span class="min">180 min</span></label>
+<p class="perche">Un lotto per conversazione tiene Claude preciso e i consumi dentro il piano Pro. Ogni lotto richiede da mezz'ora a un'ora: meglio uno al giorno.</p>
+<ol class="fai"><li>Scrivi <code class="scrivi corto">/clear</code> (o apri una conversazione nuova).</li><li>Scrivi <code class="scrivi">Con la skill wiki fai l'ingest del prossimo lotto da fare.</code> Claude guarda la tabella «Stato dei lotti» e riparte da lì.</li><li>Guarda l'elenco delle pagine, dai il via e aspetta lo «0 errori» finale.</li><li>Ripeti per ogni lotto: 2 MATE, 3 MAK, 4 TRK, 5 sito agenti.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Nella tabella «Stato dei lotti» di <code class="scrivi corto">Second Brain/CLAUDE.md</code> tutti i lotti risultano fatti.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude si ferma dicendo che hai raggiunto il limite d'uso</b> — È il limite del piano Pro, che si azzera dopo qualche ora (Claude dice quando). Riprendi più tardi in una conversazione nuova scrivendo <code class="scrivi">Riprendi il lavoro sul sito … da dove si era fermato</code>: gli script non riscaricano quello che c'è già.</li><li><b>Il lint trova errori che Claude non riesce a correggere</b> — Scrivi <code class="scrivi">Spiegami gli errori del lint uno per uno</code>: di solito sono link a pagine non ancora scritte, che si possono scrivere o togliere.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/costs" target="_blank" rel="noopener">code.claude.com/docs/en/costs</a></p>
+</article>
+<article class="passo" id="windows2-wiki-domande">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-wiki-domande"><span class="num">16</span><span class="tit">Fai le prime domande al wiki</span><span class="min">10 min</span></label>
+<p class="perche">È lo scopo di tutto: risposte rapide e con la fonte, partendo dal tuo materiale invece che dalla memoria di Claude.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Prova tre domande, per esempio: <code class="scrivi">Chiedi al wiki: quali ruotini NPK ci sono per una Fiat Panda del 2020?</code>, <code class="scrivi">Chiedi al wiki: qual è la promo push di questo mese?</code>, <code class="scrivi">Chiedi al wiki: che differenza c'è tra i sensori MATE programmabili e quelli preprogrammati?</code></li><li>Controlla che ogni risposta citi le pagine del wiki da cui viene. Se una risposta ti è utile anche in futuro, di' <code class="scrivi">Salvala come pagina di analisi</code>.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Risposte con le pagine citate tra doppie parentesi quadre, per esempio [[Ruotini NPK]].</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Claude risponde senza citare il wiki</b> — Scrivi <code class="scrivi">Rispondi solo partendo dal wiki in Second Brain e dimmi se non basta</code>.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+</article>
+</section>
+<section class="fase"><h2><span>Fase 6</span> Obsidian e verifica finale</h2><p class="obiettivo">Il wiki aperto in Obsidian e una tabella che dice cosa è a posto.</p>
+<article class="passo" id="windows2-obsidian">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-obsidian"><span class="num">17</span><span class="tit">Apri il wiki in Obsidian</span><span class="min">5 min</span></label>
+<p class="perche">In Obsidian le pagine si leggono come un sito: link cliccabili, ricerca veloce e il grafo che mostra come sono collegate.</p>
+<ol class="fai"><li>Apri Obsidian. Alla prima schermata scegli «Apri cartella come vault» (Open folder as vault).</li><li>Scegli Documenti → Claude Workspace → Second Brain e clicca «Seleziona cartella».</li><li>Se Obsidian chiede se ti fidi dell'autore del vault, rispondi di sì: è la tua cartella.</li><li>Apri <code class="scrivi corto">index.md</code>, poi la vista grafo (l'icona con i puntini collegati a sinistra): ogni area ha il suo colore.</li></ol>
+
+<p class="vedi"><b>Cosa devi vedere</b> Il wiki in Obsidian: link cliccabili e il grafo a colori per area.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Le cartelle _script e _templates compaiono nella ricerca</b> — Impostazioni → File e link → «File esclusi»: aggiungi <code class="scrivi corto">_script</code> e <code class="scrivi corto">_templates</code>.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://obsidian.md/download" target="_blank" rel="noopener">obsidian.md/download</a></p>
+</article>
+<article class="passo" id="windows2-verifica">
+<label class="passo-testa"><input type="checkbox" class="spunta" data-id="windows2-verifica"><span class="num">18</span><span class="tit">Fai controllare tutto a Claude</span><span class="min">5 min</span></label>
+<p class="perche">Una sola tabella che dice cosa è a posto e cosa no: è quella da mandare a Stefano.</p>
+<ol class="fai"><li>Apri una conversazione nuova con Claude (il <strong>+</strong> in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.</li><li>Incolla il messaggio di verifica (pulsante «Copia» qui sotto). Quando Claude chiede il permesso di eseguire i comandi di controllo, accetta.</li><li>Fai uno screenshot della tabella (tasto Windows + Maiusc + S) e mandalo a Stefano.</li></ol>
+
+<div class="cmd"><div class="cmd-testa"><span>Messaggio da incollare in Claude</span><button type="button" class="copia noprint">Copia</button></div><pre><code>Controlla che il livello 2 del mio workspace sia completo. Esegui tu i comandi che servono, senza installare, scaricare né modificare nulla. Alla fine mostrami solo una tabella con tre colonne (Cosa, Stato, OK?) per: le skill estrai-sito e wiki in .claude/skills; l'ambiente Python .venv con playwright, pymupdf e openpyxl; pdftotext; Obsidian installato; le copie dei siti in Siti/ (una riga per NPK, MATE, MAK, TRK ed EBOOK con il numero di pagine, di documenti scaricati e di documenti con testo estratto, e OK solo se c'è il README.md con l'analisi); il wiki in Second Brain (numero di pagine per area, e l'esito di _script/lint.py, OK solo con 0 errori); la tabella «Stato dei lotti» di Second Brain/CLAUDE.md; la sezione «Livello 2» nel CLAUDE.md del workspace; e, se questa cartella è un repository git, l'esito di git status: OK solo se non compare nessun file di Siti/, di Clienti/ o di Second Brain/wiki/Clienti, né PDF o Excel (i README.md e la cartella Siti/_script sono previsti e vanno bene). Sotto la tabella, per ogni riga che non è OK, scrivi in una frase cosa devo fare.</code></pre></div>
+<p class="vedi"><b>Cosa devi vedere</b> Una tabella con tutte le righe OK. Se qualche riga non lo è, Claude spiega cosa fare.</p>
+<details class="nonva"><summary>Se non va</summary><ul><li><b>Una riga resta non OK dopo aver seguito il consiglio di Claude</b> — Manda lo stesso lo screenshot a Stefano: la sistemiamo insieme.</li></ul></details>
+<p class="fonte">Fonte: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">code.claude.com/docs/en/skills</a></p>
+</article>
+</section>
+  </div>
+
   <footer>
     <p>Comandi verificati sulla documentazione ufficiale il <strong>21 ottobre 2026</strong>. Claude Code cambia spesso: se qualcosa a schermo è diverso da quanto scritto, scrivi a Stefano.</p>
-    <p class="noprint">Versione da stampare: <a href="pdf/guida-mac.pdf" download>PDF Mac</a> · <a href="pdf/guida-windows.pdf" download>PDF Windows</a></p>
+    <p class="noprint">Versione da stampare: livello 1 <a href="pdf/guida-mac.pdf" download>PDF Mac</a> · <a href="pdf/guida-windows.pdf" download>PDF Windows</a> — livello 2 <a href="pdf/livello-2-mac.pdf" download>PDF Mac</a> · <a href="pdf/livello-2-windows.pdf" download>PDF Windows</a></p>
     <p class="solostampa">Web app con i pulsanti «Copia» e lo zip del workspace: stefanoserafin.github.io/mak-installazione-claude-code/</p>
     <p class="noprint"><button type="button" class="azzera" id="azzera">Togli tutte le spunte</button></p>
   </footer>
@@ -593,9 +972,12 @@ document.addEventListener('DOMContentLoaded', function () {
   var rilevato = /Windows/i.test(navigator.userAgent) ? 'windows' : 'mac';
   var os = param.get('os') || leggi(CHIAVE + '-os', rilevato);
   if (os !== 'mac' && os !== 'windows') os = 'mac';
+  // livello: link diretto #livello-2 o ?livello=2, poi scelta salvata
+  var liv = /livello-?2/.test(location.hash) ? '2' : (param.get('livello') || leggi(CHIAVE + '-liv', '1'));
+  if (liv !== '1' && liv !== '2') liv = '1';
 
   function aggiornaConta() {
-    var guida = document.getElementById('guida-' + os);
+    var guida = document.getElementById('guida-' + liv + '-' + os);
     var tutte = guida.querySelectorAll('.spunta');
     var fatte = 0;
     for (var i = 0; i < tutte.length; i++) if (tutte[i].checked) fatte++;
@@ -605,11 +987,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function scegli(nuovo) {
     os = nuovo;
-    document.body.className = 'os-' + os;
+    document.body.className = 'liv-' + liv + ' os-' + os;
     document.getElementById('os-' + os).checked = true;
-    document.querySelector('.solostampa-os').textContent = os === 'mac' ? '· Mac' : '· Windows';
+    document.getElementById('liv-' + liv).checked = true;
+    var et = document.querySelectorAll('.solostampa-os');
+    for (var i = 0; i < et.length; i++) et[i].textContent = os === 'mac' ? '· Mac' : '· Windows';
     aggiornaConta();
   }
+
+  var livelli = document.querySelectorAll('input[name="liv"]');
+  for (var l = 0; l < livelli.length; l++) {
+    livelli[l].addEventListener('change', function () {
+      if (!this.checked) return;
+      liv = this.value; scrivi(CHIAVE + '-liv', liv);
+      if (history.replaceState) history.replaceState(null, '', liv === '2' ? '#livello-2' : location.pathname + location.search);
+      scegli(os); window.scrollTo(0, 0);
+    });
+  }
+  window.addEventListener('hashchange', function () { if (/livello-?2/.test(location.hash)) { liv = '2'; scegli(os); } });
 
   var radio = document.querySelectorAll('input[name="os"]');
   for (var r = 0; r < radio.length; r++) {

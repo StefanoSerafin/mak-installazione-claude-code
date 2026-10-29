@@ -1,0 +1,10 @@
+{
+  "userIgnoreFilters": [
+    "_script/",
+    "_templates/"
+  ],
+  "newFileLocation": "folder",
+  "newFileFolderPath": "wiki",
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": false
+}

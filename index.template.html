@@ -58,14 +58,19 @@
   .barra{flex:1;height:8px;background:var(--panel-2);border-radius:4px;overflow:hidden}
   .barra i{display:block;height:100%;width:0;background:var(--ok);transition:width .25s}
 
-  .guida{display:none}
-  body.os-mac #guida-mac, body.os-windows #guida-windows{display:block}
+  .guida,.testa-2{display:none}
+  body.liv-1.os-mac #guida-1-mac, body.liv-1.os-windows #guida-1-windows,
+  body.liv-2.os-mac #guida-2-mac, body.liv-2.os-windows #guida-2-windows{display:block}
+  body.liv-2 .testa-1{display:none} body.liv-2 .testa-2{display:block}
+  .scelta.livelli{margin-bottom:8px}
+  .scelta.livelli label{font-size:15px;padding:10px 6px}
+  .scelta.livelli label small{display:block;font-weight:400;font-size:12px;opacity:.8}
   .avviso{background:var(--amber-bg);color:var(--ink);border-left:4px solid var(--amber);padding:12px 14px;border-radius:6px;margin:16px 0}
   .intro{color:var(--ink-soft);margin:16px 0 0}
 
   .fase h2{font-size:22px;margin:36px 0 2px}
   .fase h2 span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
-  .obiettivo{margin:0 0 12px;color:var(--ink-soft)}
+  .obiettivo{margin:0 0 12px;color:var(--ink-soft);break-after:avoid}
 
   .passo{background:var(--panel);border:1px solid var(--hair);border-radius:12px;padding:14px 16px;margin:12px 0}
   .passo-testa{display:flex;align-items:center;gap:10px;cursor:pointer}
@@ -115,7 +120,8 @@
     .noprint,.sistemi,.azzera{display:none!important}
     .solostampa{display:block}
     .guida{display:none!important}
-    body.os-mac #guida-mac, body.os-windows #guida-windows{display:block!important}
+    body.liv-1.os-mac #guida-1-mac, body.liv-1.os-windows #guida-1-windows,
+    body.liv-2.os-mac #guida-2-mac, body.liv-2.os-windows #guida-2-windows{display:block!important}
     .wrap{max-width:none;padding:0}
     .passo{break-inside:avoid;border-color:#999;padding:10px 12px}
     .passo.fatto{background:#fff}.passo.fatto .tit{text-decoration:none}
@@ -131,16 +137,26 @@
   }
 </style>
 </head>
-<body class="os-mac">
+<body class="liv-1 os-mac">
 <div class="wrap">
   <header>
     <p class="marchio">Corso Claude Code · agenti MAK</p>
-    <h1><!--TITOLO--> <span class="solostampa-os"></span></h1>
-    <p class="sotto"><!--SOTTOTITOLO--></p>
-    <!--SCADENZA-->
+    <div class="testa-1">
+      <h1><!--TITOLO--> <span class="solostampa-os"></span></h1>
+      <p class="sotto"><!--SOTTOTITOLO--></p>
+      <!--SCADENZA-->
+    </div>
+    <div class="testa-2">
+      <h1><!--TITOLO_2--> <span class="solostampa-os"></span></h1>
+      <p class="sotto"><!--SOTTOTITOLO_2--></p>
+    </div>
   </header>
 
   <div class="sistemi noprint">
+    <div class="scelta livelli" role="radiogroup" aria-label="Livello">
+      <input type="radio" name="liv" id="liv-1" value="1" checked><label for="liv-1">Livello 1<small>Installazione</small></label>
+      <input type="radio" name="liv" id="liv-2" value="2"><label for="liv-2">Livello 2<small>Siti e wiki</small></label>
+    </div>
     <div class="scelta" role="radiogroup" aria-label="Sistema operativo">
       <input type="radio" name="os" id="os-mac" value="mac" checked><label for="os-mac">Mac</label>
       <input type="radio" name="os" id="os-windows" value="windows"><label for="os-windows">Windows</label>
@@ -148,20 +164,32 @@
     <div class="avanz"><div class="barra"><i id="barra"></i></div><span id="conta">0 / 0</span></div>
   </div>
 
-  <div class="guida" id="guida-mac">
+  <div class="guida" id="guida-1-mac">
     <p class="intro"><strong>Guida per Mac.</strong> Quello che devi scrivere è tra virgolette rosse, <code class="scrivi">così</code>: scrivi solo il testo, senza le virgolette. I comandi lunghi sono nei riquadri scuri, con il pulsante «Copia». Circa <!--MINUTI_MAC--> minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
     <!--GUIDA_MAC-->
   </div>
 
-  <div class="guida" id="guida-windows">
+  <div class="guida" id="guida-1-windows">
     <div class="avviso"><strong>Guida Windows non ancora provata su un PC.</strong> È scritta sulla documentazione ufficiale, ma nessuno l'ha ancora seguita dall'inizio alla fine. Se un passaggio non va come descritto, <!--CONTATTO--> con uno screenshot: la correggiamo per tutti.</div>
     <p class="intro"><strong>Guida per Windows.</strong> Quello che devi scrivere è tra virgolette rosse, <code class="scrivi">così</code>: scrivi solo il testo, senza le virgolette. I comandi lunghi sono nei riquadri scuri, con il pulsante «Copia». Circa <!--MINUTI_WIN--> minuti in tutto. Segui i passaggi in ordine e spunta ognuno quando vedi il risultato indicato in «Cosa devi vedere». Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
     <!--GUIDA_WIN-->
   </div>
 
+  <div class="guida" id="guida-2-mac">
+    <div class="avviso"><strong>Prima finisci il livello 1.</strong> Il livello 2 parte dal workspace del livello 1 già pronto (CLAUDE.md completato, Homebrew, Pandoc, VS Code con Claude). Provato da capo a fondo su un Mac il 29 ottobre 2026.</div>
+    <p class="intro"><strong>Livello 2 per Mac.</strong> Qui scrivi soprattutto a Claude: i messaggi da mandargli sono tra virgolette rosse, <code class="scrivi">così</code>. Claude lancia gli script e ti chiede il permesso: accetta. In tutto circa <!--ORE2_MAC--> di lavoro di Claude, quasi tutto mentre fai altro: <strong>non farlo in una volta sola</strong>. Una fase al giorno va benissimo; i siti e i lotti del wiki si fanno uno per conversazione. Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
+    <!--GUIDA2_MAC-->
+  </div>
+
+  <div class="guida" id="guida-2-windows">
+    <div class="avviso"><strong>Livello 2 per Windows non ancora provato su un PC.</strong> Gli script sono gli stessi provati su Mac, ma nessuno ha ancora seguito questa versione dall'inizio alla fine. Se un passaggio non va come descritto, <!--CONTATTO--> con uno screenshot: la correggiamo per tutti. Prima finisci il livello 1.</div>
+    <p class="intro"><strong>Livello 2 per Windows.</strong> Qui scrivi soprattutto a Claude: i messaggi da mandargli sono tra virgolette rosse, <code class="scrivi">così</code>. Claude lancia gli script e ti chiede il permesso: accetta. In tutto circa <!--ORE2_WIN--> di lavoro di Claude, quasi tutto mentre fai altro: <strong>non farlo in una volta sola</strong>. Una fase al giorno va benissimo; i siti e i lotti del wiki si fanno uno per conversazione. Se qualcosa non torna apri «Se non va»; se non trovi il tuo caso, <!--CONTATTO--> con uno screenshot.</p>
+    <!--GUIDA2_WIN-->
+  </div>
+
   <footer>
     <p>Comandi verificati sulla documentazione ufficiale il <strong><!--VERIFICATO--></strong>. Claude Code cambia spesso: se qualcosa a schermo è diverso da quanto scritto, <!--CONTATTO-->.</p>
-    <p class="noprint">Versione da stampare: <a href="pdf/guida-mac.pdf" download>PDF Mac</a> · <a href="pdf/guida-windows.pdf" download>PDF Windows</a></p>
+    <p class="noprint">Versione da stampare: livello 1 <a href="pdf/guida-mac.pdf" download>PDF Mac</a> · <a href="pdf/guida-windows.pdf" download>PDF Windows</a> — livello 2 <a href="pdf/livello-2-mac.pdf" download>PDF Mac</a> · <a href="pdf/livello-2-windows.pdf" download>PDF Windows</a></p>
     <p class="solostampa">Web app con i pulsanti «Copia» e lo zip del workspace: stefanoserafin.github.io/mak-installazione-claude-code/</p>
     <p class="noprint"><button type="button" class="azzera" id="azzera">Togli tutte le spunte</button></p>
   </footer>
@@ -183,9 +211,12 @@ document.addEventListener('DOMContentLoaded', function () {
   var rilevato = /Windows/i.test(navigator.userAgent) ? 'windows' : 'mac';
   var os = param.get('os') || leggi(CHIAVE + '-os', rilevato);
   if (os !== 'mac' && os !== 'windows') os = 'mac';
+  // livello: link diretto #livello-2 o ?livello=2, poi scelta salvata
+  var liv = /livello-?2/.test(location.hash) ? '2' : (param.get('livello') || leggi(CHIAVE + '-liv', '1'));
+  if (liv !== '1' && liv !== '2') liv = '1';
 
   function aggiornaConta() {
-    var guida = document.getElementById('guida-' + os);
+    var guida = document.getElementById('guida-' + liv + '-' + os);
     var tutte = guida.querySelectorAll('.spunta');
     var fatte = 0;
     for (var i = 0; i < tutte.length; i++) if (tutte[i].checked) fatte++;
@@ -195,11 +226,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function scegli(nuovo) {
     os = nuovo;
-    document.body.className = 'os-' + os;
+    document.body.className = 'liv-' + liv + ' os-' + os;
     document.getElementById('os-' + os).checked = true;
-    document.querySelector('.solostampa-os').textContent = os === 'mac' ? '· Mac' : '· Windows';
+    document.getElementById('liv-' + liv).checked = true;
+    var et = document.querySelectorAll('.solostampa-os');
+    for (var i = 0; i < et.length; i++) et[i].textContent = os === 'mac' ? '· Mac' : '· Windows';
     aggiornaConta();
   }
+
+  var livelli = document.querySelectorAll('input[name="liv"]');
+  for (var l = 0; l < livelli.length; l++) {
+    livelli[l].addEventListener('change', function () {
+      if (!this.checked) return;
+      liv = this.value; scrivi(CHIAVE + '-liv', liv);
+      if (history.replaceState) history.replaceState(null, '', liv === '2' ? '#livello-2' : location.pathname + location.search);
+      scegli(os); window.scrollTo(0, 0);
+    });
+  }
+  window.addEventListener('hashchange', function () { if (/livello-?2/.test(location.hash)) { liv = '2'; scegli(os); } });
 
   var radio = document.querySelectorAll('input[name="os"]');
   for (var r = 0; r < radio.length; r++) {
