@@ -117,7 +117,7 @@
       "id": "l2-wiki",
       "livello": 2,
       "titolo": "Il second brain",
-      "obiettivo": "Il tuo wiki in Second Brain/: Claude legge le copie dei siti e le trasforma in pagine collegate. Un marchio per conversazione, su più giorni."
+      "obiettivo": "Il tuo wiki in Second Brain/, creato con il prompt di Karpathy come nel corso di Gaito: Claude ti fa le domande, scrive lo schema con te e trasforma le copie dei siti in pagine collegate. Un marchio per conversazione, su più giorni."
     },
     {
       "id": "l2-obsidian",
@@ -882,28 +882,44 @@
       "fonte": "claude-skills"
     },
     {
-      "id": "mac2-wiki-schema",
+      "id": "mac2-wiki-karpathy",
       "fase": "l2-wiki",
-      "titolo": "Conosci il tuo wiki",
-      "perche": "Il metodo è quello di Andrej Karpathy visto nel corso di Gaito: le fonti restano com'erano, Claude scrive pagine brevi e collegate, e una pagina di regole (lo schema) dice come.",
+      "titolo": "Crea il wiki con il prompt di Karpathy",
+      "perche": "È il metodo del corso di Gaito (modulo 1 del corso avanzato): incolli il prompt che Andrej Karpathy ha pubblicato su GitHub e Claude costruisce il wiki con te, facendoti domande. Le regole MAK (materiale riservato, clienti, niente password) gliele dai con il file REGOLE-MAK.md che hai già.",
       "fai": [
-        "Apri una conversazione nuova con Claude (il **+** in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.",
-        "Scrivi `Leggi Second Brain/CLAUDE.md e spiegami in cinque righe come funzionerà il mio wiki e cosa faremo nel primo lotto.`",
-        "Se vuoi cambiare qualcosa (per esempio aggiungere un'area «Concorrenza»), dillo adesso: Claude aggiorna lo schema."
+        "Apri una conversazione nuova con Claude (il **+** in alto nel pannello di Claude).",
+        "Copia il testo di introduzione con il pulsante «Copia» qui sotto e incollalo nella casella di Claude, **senza premere Invio**.",
+        "Nel browser apri gist.github.com/karpathy/442a6bf555914893e9891c11519de94f (il link «Fonte» in fondo a questo passaggio). In alto a destra del testo clicca «Raw»: si apre il prompt come testo semplice.",
+        "Seleziona tutto (⌘ + A) e copia (⌘ + C). Torna in VS Code e incollalo (⌘ + V) sotto l'introduzione, poi premi Invio.",
+        "Claude ti fa alcune domande. Rispondi con parole tue. Per esempio, a cosa ti serve il wiki: `preparare le visite, rispondere ai clienti al telefono, ritrovare condizioni e promo`. Per le pagine che vuoi: `prodotti, concetti tecnici, procedure, promozioni`.",
+        "Claude scrive lo schema (Second Brain/CLAUDE.md), l'indice e il log. Leggi lo schema e chiedigli di cambiare quello che non ti torna."
       ],
-      "comando": null,
-      "vedi": "Claude ti spiega i tre livelli (fonti, wiki, schema), le tre operazioni (ingest, query, lint) e il piano dei lotti.",
-      "se_non_va": [],
-      "minuti": 5,
+      "comando": "Stai per creare il mio second brain con il metodo LLM Wiki di Andrej Karpathy: il suo prompt è qui sotto. Guidami passo passo e fammi le domande che servono prima di scrivere lo schema. Le fonti sono in Siti/ (le copie dei siti NPK, MATE, MAK, TRK e del sito agenti) e in Listini/, e restano dove sono. Crea tutto il wiki (CLAUDE.md con lo schema, index, log, pagine) dentro la cartella Second Brain. Prima di scrivere lo schema leggi Second Brain/REGOLE-MAK.md: sono regole obbligatorie per un agente MAK e vanno dentro lo schema. Per la prova parti dal lotto NPK con poche pagine.\n\nEcco il prompt di Karpathy:",
+      "vedi": "Nella cartella Second Brain ci sono CLAUDE.md (lo schema, con dentro le regole MAK), index.md e log.md.",
+      "se_non_va": [
+        {
+          "se": "Non trovi il pulsante «Raw»",
+          "fai": "Scrivi a Claude, al posto del prompt incollato, `Leggi tu il prompt di Karpathy da https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f e usalo`: lo scarica da solo."
+        },
+        {
+          "se": "Lo schema non parla di materiale riservato o di clienti",
+          "fai": "Scrivi `Controlla che lo schema contenga tutte le regole di Second Brain/REGOLE-MAK.md e aggiungi quelle che mancano`."
+        },
+        {
+          "se": "Claude scrive lo schema in inglese",
+          "fai": "Scrivi `Riscrivi lo schema in italiano`."
+        }
+      ],
+      "minuti": 20,
       "fonte": "karpathy-llm-wiki"
     },
     {
       "id": "mac2-wiki-pilota",
       "fase": "l2-wiki",
       "titolo": "Il primo lotto: NPK",
-      "perche": "Il primo lotto è piccolo apposta: serve a decidere insieme a Claude come devono essere le pagine prima di farne centinaia.",
+      "perche": "Il primo lotto è piccolo apposta: serve a decidere insieme a Claude come devono essere le pagine prima di farne centinaia. Se Claude l'ha già cominciato nel passaggio precedente, qui lo finisci.",
       "fai": [
-        "Nella stessa conversazione scrivi `Con la skill wiki fai l'ingest del lotto 1, NPK, partendo da Siti/NPK. Prima mostrami l'elenco delle pagine che vuoi scrivere.`",
+        "Nella stessa conversazione scrivi `Fai l'ingest del lotto 1, NPK, partendo da Siti/NPK: poche pagine, poi fermati. Prima mostrami l'elenco delle pagine che vuoi scrivere.` (se Claude ha già cominciato, scrivi solo `Vai avanti con il lotto NPK`).",
         "Guarda l'elenco e rispondi `Va bene` o chiedi di togliere o aggiungere pagine.",
         "Claude scrive 5–8 pagine, aggiorna indice e log e lancia il controllo (lint) fino a zero errori."
       ],
@@ -1773,28 +1789,44 @@
       "fonte": "claude-skills"
     },
     {
-      "id": "windows2-wiki-schema",
+      "id": "windows2-wiki-karpathy",
       "fase": "l2-wiki",
-      "titolo": "Conosci il tuo wiki",
-      "perche": "Il metodo è quello di Andrej Karpathy visto nel corso di Gaito: le fonti restano com'erano, Claude scrive pagine brevi e collegate, e una pagina di regole (lo schema) dice come.",
+      "titolo": "Crea il wiki con il prompt di Karpathy",
+      "perche": "È il metodo del corso di Gaito (modulo 1 del corso avanzato): incolli il prompt che Andrej Karpathy ha pubblicato su GitHub e Claude costruisce il wiki con te, facendoti domande. Le regole MAK (materiale riservato, clienti, niente password) gliele dai con il file REGOLE-MAK.md che hai già.",
       "fai": [
-        "Apri una conversazione nuova con Claude (il **+** in alto nel pannello di Claude) prima di cominciare: un lavoro lungo per conversazione.",
-        "Scrivi `Leggi Second Brain/CLAUDE.md e spiegami in cinque righe come funzionerà il mio wiki e cosa faremo nel primo lotto.`",
-        "Se vuoi cambiare qualcosa (per esempio aggiungere un'area «Concorrenza»), dillo adesso: Claude aggiorna lo schema."
+        "Apri una conversazione nuova con Claude (il **+** in alto nel pannello di Claude).",
+        "Copia il testo di introduzione con il pulsante «Copia» qui sotto e incollalo nella casella di Claude, **senza premere Invio**.",
+        "Nel browser apri gist.github.com/karpathy/442a6bf555914893e9891c11519de94f (il link «Fonte» in fondo a questo passaggio). In alto a destra del testo clicca «Raw»: si apre il prompt come testo semplice.",
+        "Seleziona tutto (Ctrl + A) e copia (Ctrl + C). Torna in VS Code e incollalo (Ctrl + V) sotto l'introduzione, poi premi Invio.",
+        "Claude ti fa alcune domande. Rispondi con parole tue. Per esempio, a cosa ti serve il wiki: `preparare le visite, rispondere ai clienti al telefono, ritrovare condizioni e promo`. Per le pagine che vuoi: `prodotti, concetti tecnici, procedure, promozioni`.",
+        "Claude scrive lo schema (Second Brain/CLAUDE.md), l'indice e il log. Leggi lo schema e chiedigli di cambiare quello che non ti torna."
       ],
-      "comando": null,
-      "vedi": "Claude ti spiega i tre livelli (fonti, wiki, schema), le tre operazioni (ingest, query, lint) e il piano dei lotti.",
-      "se_non_va": [],
-      "minuti": 5,
+      "comando": "Stai per creare il mio second brain con il metodo LLM Wiki di Andrej Karpathy: il suo prompt è qui sotto. Guidami passo passo e fammi le domande che servono prima di scrivere lo schema. Le fonti sono in Siti/ (le copie dei siti NPK, MATE, MAK, TRK e del sito agenti) e in Listini/, e restano dove sono. Crea tutto il wiki (CLAUDE.md con lo schema, index, log, pagine) dentro la cartella Second Brain. Prima di scrivere lo schema leggi Second Brain/REGOLE-MAK.md: sono regole obbligatorie per un agente MAK e vanno dentro lo schema. Per la prova parti dal lotto NPK con poche pagine.\n\nEcco il prompt di Karpathy:",
+      "vedi": "Nella cartella Second Brain ci sono CLAUDE.md (lo schema, con dentro le regole MAK), index.md e log.md.",
+      "se_non_va": [
+        {
+          "se": "Non trovi il pulsante «Raw»",
+          "fai": "Scrivi a Claude, al posto del prompt incollato, `Leggi tu il prompt di Karpathy da https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f e usalo`: lo scarica da solo."
+        },
+        {
+          "se": "Lo schema non parla di materiale riservato o di clienti",
+          "fai": "Scrivi `Controlla che lo schema contenga tutte le regole di Second Brain/REGOLE-MAK.md e aggiungi quelle che mancano`."
+        },
+        {
+          "se": "Claude scrive lo schema in inglese",
+          "fai": "Scrivi `Riscrivi lo schema in italiano`."
+        }
+      ],
+      "minuti": 20,
       "fonte": "karpathy-llm-wiki"
     },
     {
       "id": "windows2-wiki-pilota",
       "fase": "l2-wiki",
       "titolo": "Il primo lotto: NPK",
-      "perche": "Il primo lotto è piccolo apposta: serve a decidere insieme a Claude come devono essere le pagine prima di farne centinaia.",
+      "perche": "Il primo lotto è piccolo apposta: serve a decidere insieme a Claude come devono essere le pagine prima di farne centinaia. Se Claude l'ha già cominciato nel passaggio precedente, qui lo finisci.",
       "fai": [
-        "Nella stessa conversazione scrivi `Con la skill wiki fai l'ingest del lotto 1, NPK, partendo da Siti/NPK. Prima mostrami l'elenco delle pagine che vuoi scrivere.`",
+        "Nella stessa conversazione scrivi `Fai l'ingest del lotto 1, NPK, partendo da Siti/NPK: poche pagine, poi fermati. Prima mostrami l'elenco delle pagine che vuoi scrivere.` (se Claude ha già cominciato, scrivi solo `Vai avanti con il lotto NPK`).",
         "Guarda l'elenco e rispondi `Va bene` o chiedi di togliere o aggiungere pagine.",
         "Claude scrive 5–8 pagine, aggiorna indice e log e lancia il controllo (lint) fino a zero errori."
       ],

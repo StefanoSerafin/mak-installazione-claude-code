@@ -7,7 +7,7 @@ Questo zip si aggiunge al workspace del livello 1: **non sostituisce niente**.
 | Skill `estrai-sito` (copia di un sito, letto per intero) | `.claude/skills/estrai-sito/` |
 | Skill `wiki` (il second brain: ingest, query, lint) | `.claude/skills/wiki/` |
 | Gli script per i siti MAK e il README | `Siti/` |
-| Lo scheletro del wiki: schema, modelli, lint, indice, log, pagine hub, impostazioni di Obsidian | `Second Brain/` |
+| Le regole MAK per il wiki (`REGOLE-MAK.md`), il controllo automatico (`_script/lint.py`) e le impostazioni di Obsidian. Lo schema del wiki lo crea l'agente con Claude incollando il prompt di Karpathy | `Second Brain/` |
 | Cosa non va su GitHub | `.gitignore` |
 
 ## Istruzioni per Claude
@@ -30,7 +30,7 @@ Le esegue Claude quando l'agente gli chiede di scompattare lo zip.
 | Cartella | Cosa contiene |
 |---|---|
 | `Siti/` | le copie dei siti MAK, NPK, MATE, TRK e del sito agenti, fatte con la skill `estrai-sito` (copie fuori da git) |
-| `Second Brain/` | il mio wiki (metodo LLM Wiki di Karpathy): schema in `Second Brain/CLAUDE.md`, pagine in `wiki/`, si apre con Obsidian |
+| `Second Brain/` | il mio wiki, nato dal prompt LLM Wiki di Karpathy: schema in `Second Brain/CLAUDE.md` (con dentro le regole di `REGOLE-MAK.md`), pagine in `wiki/`, si apre con Obsidian |
 
 - Per le domande sui prodotti, sulle condizioni o sulle procedure MAK parti dal wiki (`Second Brain/index.md`); se non basta, vai alle copie in `Siti/`.
 - Quando una copia di un sito viene aggiornata o arriva materiale nuovo in `Listini/`, proponi l'ingest nel wiki con la skill `wiki`.

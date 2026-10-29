@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Controlli di salute del wiki. Uso, dalla cartella Second Brain: python3 _script/lint.py
-(su Windows: python _script\\lint.py). Le aree valide sono quelle della tabella «Struttura» di CLAUDE.md."""
+(su Windows: python _script\\lint.py). Le aree valide sono quelle della tabella delle cartelle di CLAUDE.md (vedi REGOLE-MAK.md)."""
 import re
 import sys
 import unicodedata
@@ -12,7 +12,8 @@ WIKI = VAULT / "wiki"
 
 TIPI = {"prodotto", "concetto", "procedura", "persona", "organizzazione",
         "network", "cliente", "progetto", "fonte", "analisi"}
-AREE = set(re.findall(r"^\| `wiki/([^/`]+)/` \|", (VAULT / "CLAUDE.md").read_text(encoding="utf-8"), re.M)) - {"Fonti"}
+SCHEMA = VAULT / "CLAUDE.md"
+AREE = set(re.findall(r"^\| `wiki/([^/`]+)/` \|", SCHEMA.read_text(encoding="utf-8"), re.M)) - {"Fonti"} if SCHEMA.exists() else set()
 CAMPI = ("tipo", "area", "fonti", "aggiornato", "riservato")
 LINK = re.compile(r"\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|[^\]]*)?\]\]")
 
@@ -47,8 +48,10 @@ def link(testo):
 
 def main():
     errori = []
+    if not SCHEMA.exists():
+        sys.exit("Manca Second Brain/CLAUDE.md: prima va creato lo schema con il prompt di Karpathy.")
     if not AREE:
-        sys.exit("Non trovo le aree nella tabella «Struttura» di CLAUDE.md.")
+        sys.exit("Non trovo nello schema la tabella delle cartelle con righe | `wiki/<Area>/` | (vedi REGOLE-MAK.md).")
     pagine = sorted(WIKI.rglob("*.md"))
     nomi = {}
     for p in pagine:

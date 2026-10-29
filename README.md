@@ -79,7 +79,7 @@ Il collega scarica `livello-2.zip` e lo fa scompattare a Claude con le istruzion
 | `Siti/_script/estrai_testo.py` | testo di PDF, Excel, Word, PowerPoint in `testo/`, con `testo.csv` e l'elenco dei PDF fatti solo di immagini |
 | `Siti/_script/npk_dati.py` | i configuratori di noproblemkit.com in CSV (da `Mak/noproblemkit/_script/scarica_dati.py`, senza la parte zona MI/MB/LO, 2 richieste in parallelo) |
 | `Siti/_script/ebook_pagine.py`, `ebook_file.py`, `avvia_chrome_ebook.sh` / `.ps1` | il sito agenti da un Chrome dedicato (`~/.mak-ebook-chrome`, porta 9333) in cui il login lo fa il collega; video e file oltre 50 MB solo elencati |
-| `Second Brain/` | schema del wiki adattato da quello di Stefano (aree MAK, MATE, NPK, TRK, EBOOK, Marketing, Network, Clienti; «Dal mio metodo»), modelli, `lint.py` che legge le aree dallo schema, indice, log, hub vuoti, `.obsidian/` con i colori del grafo per area |
+| `Second Brain/` | **niente schema pronto**: il collega lo crea con Claude incollando il prompt «LLM Wiki» di Karpathy, come nel modulo 1 del corso avanzato di Gaito (introduzione pronta nella guida, testo dal gist). Dentro ci sono:<br>• `REGOLE-MAK.md`, le regole obbligatorie che Claude deve mettere nello schema (sorgenti, aree consigliate, formato per il lint, riservato, clienti fuori da git, niente credenziali, «Da verificare», «Dal mio metodo», un lotto per conversazione, NPK pilota);<br>• `_script/lint.py`, che legge le aree dalla tabella dello schema e avvisa se lo schema non c'è ancora;<br>• `.obsidian/app.json` |
 | `.gitignore` | fuori da git le copie dei siti (sito agenti compreso), i clienti, `.venv`, PDF ed Excel |
 
 Lo zip è pubblico come la pagina: **non deve contenere niente di Stefano** (pagine del wiki, copie dei siti, dati clienti, credenziali). Prima di ripubblicare: `unzip -p livello-2.zip | grep -i -E "stefano|serafin|passphrase"` deve uscire vuoto.
@@ -101,6 +101,7 @@ Le differenze rispetto agli script di Stefano:
     - ambiente Python creato con il comando della guida;
     - copia di TRK (26 pagine, 5 PDF più 2 flippingbook letti) e di NPK senza configuratori (24 pagine, 7 PDF letti), con README e contraddizioni;
     - lotto pilota del wiki NPK: 8 pagine, lint a 0 errori;
-    - messaggio di verifica: tabella corretta, con un falso allarme su `Clienti/README.md` poi corretto nel testo del messaggio.
+    - messaggio di verifica: tabella corretta, con un falso allarme su `Clienti/README.md` poi corretto nel testo del messaggio;
+    - dopo la segnalazione di Stefano (lo schema pronto saltava il prompt di Karpathy usato nel corso), rifatto il passo del wiki con l'introduzione della guida e il testo del gist incollato: Claude ha scritto lo schema con tutte le regole di `REGOLE-MAK.md`, fatto il lotto pilota NPK (8 pagine) e `lint.py` ha dato 0 errori sullo schema generato.
 - **Windows**: non ancora provato.
 
